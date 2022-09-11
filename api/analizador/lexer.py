@@ -1,6 +1,6 @@
 from re import L
-from models.misc.Program import Program
-from models.misc.error import Error_
+from AST.misc.Program import Program
+from AST.misc.error import Error_
 from ply import lex
 
 reservadas = {

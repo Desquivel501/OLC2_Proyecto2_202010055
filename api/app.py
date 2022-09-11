@@ -1,13 +1,12 @@
 from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
 import json
-from models.misc.Program import Program
+from AST.misc.Program import Program
 
-from models.tabla.TablaSimbolos import TablaSimbolos
-from models.misc.driver import Driver
-from models.ast.ast import Ast
+from Entorno.TablaSimbolos import TablaSimbolos
+from AST.ast import Ast
 
-from analizador.parser import parser
+from Analizador.parser import parser
 
 app = Flask(__name__)
 CORS(app)
