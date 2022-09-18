@@ -1,10 +1,8 @@
-from Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 
 
 class Expresion:
 
-    def obtener3D(self, ts):
+    def obtener3D(self, ts) -> Retorno:
        pass
    
-    def ejecutar3D(self, entorno):
-        pass

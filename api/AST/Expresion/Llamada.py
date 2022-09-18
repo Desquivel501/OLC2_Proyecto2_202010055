@@ -1,9 +1,9 @@
 
 
-from api.Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 from AST.Instruccion.Instruccion import Instruccion
 from Entorno.Simbolos.Funcion import Funcion
-from Entorno.Tipos import Tipos
+from Entorno.Retorno import Tipos
 from AST.misc.error import Error_
 from Entorno.Simbolo import Simbolo
 from AST.Expresion.Expresion import Expresion

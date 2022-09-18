@@ -2,9 +2,9 @@
 from Entorno.Simbolos.InstanciaArreglo import InstanciaArreglo
 from Entorno.TablaSimbolos import TablaSimbolos
 from AST.Expresion.Expresion import Expresion
-from Entorno.Tipos import Tipos
+from Entorno.Retorno import Tipos
 from AST.misc.error import Error_
-from Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 
 
 

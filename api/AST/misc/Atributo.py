@@ -1,6 +1,6 @@
 
 from AST.Expresion.Expresion import Expresion
-from Entorno.Tipos import Tipo
+
 
 class Atributo():
     

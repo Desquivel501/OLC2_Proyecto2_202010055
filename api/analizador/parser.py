@@ -5,7 +5,7 @@ from AST.Expresion.Clone import Clone
 from AST.misc.Program import Program
 from AST.Expresion.Array.Chars import Chars
 from AST.Expresion.GetCapacity import GetCapacity
-from AST.Expresion.Contains import Contains_
+from AST.Expresion.Contains import Contains
 from AST.Instruccion.Remove import Remove
 from AST.Instruccion.Insert import Insert
 from AST.Instruccion.Push import Push
@@ -36,7 +36,7 @@ from AST.misc.Parametro import Parametro
 from AST.Expresion.Casteo import Casteo
 from AST.Expresion.ToString import ToString
 from AST.Expresion.Length import Length
-from Entorno.Tipos import Tipos
+
 from AST.Instruccion.Print import Print_
 from AST.Instruccion.Continue import Continue
 from AST.Instruccion.Loop import Loop
@@ -55,13 +55,14 @@ from AST.Instruccion.If import If
 
 from AST.Expresion.Identificador import Identificador
 from AST.Instruccion.Definicion.Asignacion import Asignacion
-from Entorno.Simbolo import Simbolo, Simbolos
 from AST.Expresion.operacion.Relacional import Relacional
 from AST.Expresion.operacion.Logica import Logica
 from AST.ast import Ast
 from AST.Expresion.operacion.Aritmetica import Aritmetica
 from AST.Expresion.Primitivo import Primitivo
-from Entorno.Tipos import Tipo
+
+from Entorno.Retorno import Tipos
+
 
 tokens = lexer.tokens
 
@@ -278,9 +279,9 @@ def p_funcion(p):
             | FN ID PAR_I PAR_D statement
     """
     if len(p) == 7:
-        p[0] = Funcion(p[2],p[4],p[6], Tipo(tipo = Tipos.VOID), p.lineno(1),p.lexpos(1) )
+        p[0] = Funcion(p[2],p[4],p[6], Tipos.VOID, p.lineno(1),p.lexpos(1) )
     else:
-        p[0] = Funcion(p[2],[],p[5], Tipo(tipo = Tipos.VOID), p.lineno(1),p.lexpos(1) )
+        p[0] = Funcion(p[2],[],p[5], Tipos.VOID, p.lineno(1),p.lexpos(1) )
 
 
 def p_funcion_tipo(p):
@@ -658,13 +659,24 @@ def p_tipo(p):
         | USIZE
     """
     if p.slice[1].type == 'acceso_mod':
-        p[0] = Tipo(tipo=Tipos.STRUCT)
-    elif p.slice[1].type == 'USIZE':
-        p[0] = Tipo(tipo=Tipos.INT)
-    elif len(p) == 2:
-        p[0] = Tipo(stipo = p[1])
-    else:
-        p[0] = Tipo(stipo = "&str")
+        p[0] = Tipos.STRUCT
+    
+    if  p[1] == "i64":
+        p[0] = Tipos.INT
+    if p[1] == "f64":
+        p[0] = Tipos.FLOAT
+    if p[1] == "bool":
+        p[0] = Tipos.BOOLEAN
+    if p[1] == "&str":
+        p[0] = Tipos.STR
+    if p[1] == "String":
+        p[0] = Tipos.STRING
+    if p[1] == "char":
+        p[0] = Tipos.CHAR
+    if p[1] == "void":
+        p[0] = Tipos.VOID
+    if p[1] == "usize":
+        p[0] = Tipos.INT
         
         
 def p_tipo_funcion(p):
@@ -684,21 +696,33 @@ def p_tipo_funcion(p):
 
     """
     if p.slice[1].type == 'ID':
-        p[0] = Tipo(tipo=Tipos.STRUCT)
-    elif p.slice[1].type == 'USIZE':
-        p[0] = Tipo(tipo=Tipos.INT)
+        p[0] = Tipos.STRUCT
     elif p.slice[1].type == 'VEC_U':
-        p[0] = Tipo(tipo=Tipos.VECTOR_DATA)
-    elif len(p) == 2:
-        p[0] = Tipo(stipo = p[1])
-    elif len(p) == 3:
-        p[0] = Tipo(stipo = "&str")
+        p[0] = Tipos.VECTOR_DATA
         
-    if p.slice[1].type == 'dimensiones_un_tipo':
+    elif p.slice[1].type == 'dimensiones_un_tipo':
         p[0] = p[1]
+    elif p.slice[1].type == 'dimensiones_arreglo_tipo':
+        p[0] = p[1]
+        
+    if  p[1] == "i64":
+        p[0] = Tipos.INT
+    if p[1] == "f64":
+        p[0] = Tipos.FLOAT
+    if p[1] == "bool":
+        p[0] = Tipos.BOOLEAN
+    if p[1] == "&str":
+        p[0] = Tipos.STR
+    if p[1] == "String":
+        p[0] = Tipos.STRING
+    if p[1] == "char":
+        p[0] = Tipos.CHAR
+    if p[1] == "void":
+        p[0] = Tipos.VOID
+    if p[1] == "usize":
+        p[0] = Tipos.INT
+        
     
-    if p.slice[1].type == 'dimensiones_arreglo_tipo':
-        p[0] = p[1]
 
 
 def p_dimension_arreglo_tipo(p):
@@ -975,7 +999,7 @@ def p_tipo_modulo(p):
     """
     tipo_modulo : tipo_mod D_PUNTO D_PUNTO ID
     """
-    p[0] = Tipo(tipo=Tipos.STRUCT)
+    p[0] = Tipos.STRUCT
     
     
 def p_tipo_mod(p):
@@ -999,18 +1023,30 @@ def p_v_tipo(p):
            | USIZE
            | tipo_modulo
     """
+
     if p.slice[1].type == 'ID':
-        p[0] = Tipo(tipo=Tipos.STRUCT)
-    elif p.slice[1].type == 'USIZE':
-        p[0] = Tipo(tipo=Tipos.INT)
-    elif p.slice[1].type == 'VEC_U':
-        p[0] = Tipo(tipo=Tipos.VECTOR_DATA)
-    elif p.slice[1].type == 'tipo_modulo':
-        p[0] = p[1]
-    elif len(p) == 2:
-        p[0] = Tipo(stipo = p[1])
-    else:
-        p[0] = Tipo(stipo = "&str")
+        p[0] = Tipos.STRUCT
+    if p.slice[1].type == 'VEC_U':
+        p[0] = Tipos.VECTOR_DATA
+    if p.slice[1].type == 'tipo_modulo':
+        p[0] = p[1]   
+    
+    if  p[1] == "i64":
+        p[0] = Tipos.INT
+    if p[1] == "f64":
+        p[0] = Tipos.FLOAT
+    if p[1] == "bool":
+        p[0] = Tipos.BOOLEAN
+    if p[1] == "&str":
+        p[0] = Tipos.STR
+    if p[1] == "String":
+        p[0] = Tipos.STRING
+    if p[1] == "char":
+        p[0] = Tipos.CHAR
+    if p[1] == "void":
+        p[0] = Tipos.VOID
+    if p[1] == "usize":
+        p[0] = Tipos.INT
     
     
 def p_vec_new(p):
@@ -1065,7 +1101,7 @@ def p_vector_contains(p):
     """
     vec_contains : expresion PUNTO CONTAINS PAR_I AMP expresion PAR_D
     """
-    p[0] = Contains_(p[1],p[6], p.lineno(1),p.lexpos(1) )
+    p[0] = Contains(p[1],p[6], p.lineno(1),p.lexpos(1) )
     
     
 def p_vector_get_cap(p):
@@ -1176,9 +1212,12 @@ def p_expresion_numero(p):
     expresion : ENTERO
               | DECIMAL
     """
-    p[0] = Primitivo(p[1], None, p.lineno(1),p.lexpos(1) )
-
-
+    if p.slice[1].type == 'ENTERO':
+        p[0] = Primitivo(p[1], Tipos.INT, p.lineno(1),p.lexpos(1) )
+    if p.slice[1].type == 'DECIMAL':
+        p[0] = Primitivo(p[1], Tipos.FLOAT, p.lineno(1),p.lexpos(1) )
+    
+    
 def p_expresion_bool(p):
     """
     expresion : TRUE

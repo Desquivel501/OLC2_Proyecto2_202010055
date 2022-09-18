@@ -1,13 +1,13 @@
 
 from operator import truediv
-from Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 from AST.Instruccion.Statement import Statement
 from AST.Expresion.Expresion import Expresion
 from Entorno.TablaSimbolos import TablaSimbolos
 from AST.misc.Program import Program
 from AST.Instruccion.Instruccion import Instruccion
 from AST.Instruccion.Case import Case
-from Entorno.Tipos import Tipos
+from Entorno.Retorno import Tipos
 from AST.misc.error import Error_
 
 

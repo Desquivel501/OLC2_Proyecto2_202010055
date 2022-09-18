@@ -3,7 +3,7 @@ from struct import Struct
 from Entorno.Simbolo import Simbolo
 from AST.misc.error import Error_
 from AST.Instruccion.Instruccion import Instruccion
-from Entorno.Tipos import Tipo, Tipos
+
 from AST.Expresion.Expresion import Expresion
 
 class InstanciaArreglo(Expresion, Simbolo):

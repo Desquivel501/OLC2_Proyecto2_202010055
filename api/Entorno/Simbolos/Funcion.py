@@ -4,12 +4,12 @@ from AST.misc.Program import Program
 from Entorno.Simbolo import Simbolo
 from AST.Instruccion.Statement import Statement
 from AST.misc.error import Error_
-from Entorno.Tipos import Tipo, Tipos
+from Entorno.Retorno import Tipos
 from AST.Instruccion.Instruccion import Instruccion
 
 class Funcion(Instruccion):
     
-    def __init__(self, identificador: str, lista_param, instrucciones: Statement, tipo: Tipo, linea:int, columna: int ):
+    def __init__(self, identificador: str, lista_param, instrucciones: Statement, tipo: Tipos, linea:int, columna: int ):
         self.identificador = identificador
         self.lista_param = lista_param
         self.tipo = tipo
@@ -97,57 +97,22 @@ class Funcion(Instruccion):
                     
                     if element["tipo"] == "return":
                         
-                        if self.tipo.tipo != Tipos.VOID:
+                        if self.tipo != Tipos.VOID:
                             if element["exp"] is None:
                                 raise Error_("Semantico", f'La funcion {self.identificador} debe poseer un return', ts_local.env, self.linea, self.columna)
                             
                             valor_return = element["exp"].getValor(ts_local)
                             tipo_return = element["exp"].getTipo(ts_local)
                             
-                            if tipo_return != self.tipo.tipo:
+                            if tipo_return != self.tipo:
                                 raise Error_("Semantico", f'Tipo de Return incorrecto', ts_local.env, self.linea, self.columna)
 
                             return valor_return
                         else:
-                            raise Error_("Semantico", f'La funcion {self.identificador} debe poseer un return tipo {ts_local.getTiposNombre(self.tipo.tipo)}', ts_local.env, self.linea, self.columna)
+                            raise Error_("Semantico", f'La funcion {self.identificador} debe poseer un return tipo {ts_local.getTiposNombre(self.tipo)}', ts_local.env, self.linea, self.columna)
 
                 
             except Exception as e:
                 print(e)
         
-        
-            
-        # for ins in codigo:
-        #         element = ins.ejecutar(ts_local)
-                
-        #         if element is not None:
-        #             if element["tipo"] == "break":
-        #                 raise Error_("Semantico", f'No se puede ejecutar un Break fuera de un ciclo', ts_local.env, self.linea, self.columna)
-                    
-        #             if element["tipo"] == "continue":
-        #                 raise Error_("Semantico", f'No se puede ejecutar un Continue fuera de un ciclo', ts_local.env, self.linea, self.columna)
-                    
-        #             if element["tipo"] == "return":
-                        
-        #                 if self.tipo.tipo != Tipos.VOID:
-        #                     if element["exp"] is None:
-        #                         raise Error_("Semantico", f'La funcion {self.identificador} debe poseer un return', ts_local.env, self.linea, self.columna)
-                            
-        #                     valor_return = element["exp"].getValor(ts_local)
-        #                     tipo_return = element["exp"].getTipo(ts_local)
-                            
-        #                     if tipo_return != self.tipo.tipo:
-        #                         raise Error_("Semantico", f'Tipo de Return incorrecto', ts_local.env, self.linea, self.columna)
-
-        #                     return valor_return
-        #                 else:
-        #                     raise Error_("Semantico", f'La funcion {self.identificador} debe poseer un return tipo {ts_local.getTiposNombre(self.tipo.tipo)}', ts_local.env, self.linea, self.columna)
-                        
-
-        
-
-                
-
-           
-                
-          
+    

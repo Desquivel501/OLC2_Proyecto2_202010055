@@ -1,6 +1,6 @@
 from Entorno.Simbolos.Modulo import Modulo
-from Entorno.Tipos import Tipo
-from Entorno.Tipos import Tipos
+
+from Entorno.Retorno import Tipos
 from Entorno.Simbolos.InstanciaVector import InstanciaVector
 from Entorno.Simbolos.InstanciaArreglo import InstanciaArreglo
 from Entorno.Simbolos.InstanciaStruct import InstanciaStruct
@@ -8,10 +8,11 @@ from Entorno.Simbolos.Struct import Struct
 from Entorno.Simbolos.Funcion import Funcion
 from AST.misc.Program import Program
 from Entorno.Simbolo import Simbolo
+from Generador import Generador
 
 class TablaSimbolos:
 
-    def __init__(self, anterior, env):
+    def __init__(self, generador: Generador, anterior, env):
         self.env = env
         self.anterior = anterior
         self.tabla = {}
@@ -22,16 +23,19 @@ class TablaSimbolos:
         self.arreglos = {}
         self.vectores = {}
         self.modulos = {}
+        
+        self.generador = generador
+        self.tamanio = 0
 
     def add(self, id: str, simbolo: Simbolo, linea, columna):
         self.tabla[id] = simbolo
         
-        data = self.getTipos(simbolo)
+        # data = self.getTipos(simbolo)
         
-        tipo = data[0]
-        tipo_s = data[1]
+        # tipo = data[0]
+        # tipo_s = data[1]
         
-        Program.tabla.append({"id":id, "simbolo": tipo_s, "tipo":tipo,  "ambito":self.env, "linea": linea, "columna": columna})
+        # Program.tabla.append({"id":id, "simbolo": tipo_s, "tipo":tipo, "ambito":self.env, "linea": linea, "columna": columna})
 
     def buscar(self, id: str) -> Simbolo:
         ts = self
@@ -43,8 +47,10 @@ class TablaSimbolos:
             ts = ts.anterior
         return None
 
+
     def buscarActual(self, id: str) -> Simbolo:
         return self.tabla.get(id)
+
 
     def getGlobal(self):
         env = self
@@ -175,36 +181,36 @@ class TablaSimbolos:
             return ""
             
 
-    def getTipos(self, simbolo):
-        if isinstance(simbolo, InstanciaVector):
-            tipo = self.getTiposNombre(simbolo.tipo)
-            tipo_s = "Vector"
-        elif isinstance(simbolo, InstanciaVector):
-            tipo = self.getTiposNombre(simbolo.tipo)
-            tipo_s = "Vector"
-        elif isinstance(simbolo, InstanciaArreglo):
-            tipo = self.getTiposNombre(simbolo.tipo)
-            tipo_s = "Arreglo"
-        elif isinstance(simbolo, InstanciaStruct):
-            tipo = ""
-            tipo_s = "Struct"
-        else:
-            if isinstance(simbolo.valor, InstanciaVector):
-                tipo = self.getTiposNombre(simbolo.tipo)
-                tipo_s = "Vector"
-            elif isinstance(simbolo.valor, InstanciaVector):
-                tipo = self.getTiposNombre(simbolo.tipo)
-                tipo_s = "Vector"
-            elif isinstance(simbolo.valor, InstanciaArreglo):
-                tipo = self.getTiposNombre(simbolo.tipo)
-                tipo_s = "Arreglo"
-            elif isinstance(simbolo.valor, InstanciaStruct):
-                tipo = ""
-                tipo_s = "Struct"
-            else:
-                tipo = self.getTiposNombre(simbolo.tipo.tipo)
-                tipo_s = "Primitivo"
+    # def getTipos(self, simbolo):
+    #     if isinstance(simbolo, InstanciaVector):
+    #         tipo = self.getTiposNombre(simbolo.tipo)
+    #         tipo_s = "Vector"
+    #     elif isinstance(simbolo, InstanciaVector):
+    #         tipo = self.getTiposNombre(simbolo.tipo)
+    #         tipo_s = "Vector"
+    #     elif isinstance(simbolo, InstanciaArreglo):
+    #         tipo = self.getTiposNombre(simbolo.tipo)
+    #         tipo_s = "Arreglo"
+    #     elif isinstance(simbolo, InstanciaStruct):
+    #         tipo = ""
+    #         tipo_s = "Struct"
+    #     else:
+    #         if isinstance(simbolo.valor, InstanciaVector):
+    #             tipo = self.getTiposNombre(simbolo.tipo)
+    #             tipo_s = "Vector"
+    #         elif isinstance(simbolo.valor, InstanciaVector):
+    #             tipo = self.getTiposNombre(simbolo.tipo)
+    #             tipo_s = "Vector"
+    #         elif isinstance(simbolo.valor, InstanciaArreglo):
+    #             tipo = self.getTiposNombre(simbolo.tipo)
+    #             tipo_s = "Arreglo"
+    #         elif isinstance(simbolo.valor, InstanciaStruct):
+    #             tipo = ""
+    #             tipo_s = "Struct"
+    #         else:
+    #             tipo = self.getTiposNombre(simbolo.tipo.tipo)
+    #             tipo_s = "Primitivo"
 
-        return (tipo, tipo_s)
+    #     return (tipo, tipo_s)
     
     

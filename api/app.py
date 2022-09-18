@@ -5,11 +5,15 @@ from AST.misc.Program import Program
 
 from Entorno.TablaSimbolos import TablaSimbolos
 from AST.ast import Ast
+from Generador import Generador
 
 from Analizador.parser import parser
+from Entorno.Simbolos.Funcion import Funcion
 
 app = Flask(__name__)
 CORS(app)
+
+Generador3D = Generador()
 
 # ast: Ast = parser.parse("ejecutar(1 + 1); ejecutar(1 + 1);")
 
@@ -42,6 +46,11 @@ def tabla_bases():
     
 @app.route("/interpretar",methods=["POST"])
 def interpretar():
+    
+    # generador = Generador()
+    
+    Generador3D.reiniciar()
+
     if request.method == 'POST':
         Program.console = ""
         Program.tabla = []
@@ -53,27 +62,31 @@ def interpretar():
         
         if instrucciones != "":
             
-            try:
+            if len(Program.errores) <= 0:
 
                 ast: Ast = parser.parse(instrucciones)
-                ts = TablaSimbolos(None, 'Main')
-                ast.ejecutar(ts)
-                
-            except Exception as e:
-                print(e)
-                
-            # ast: Ast = parser.parse(instrucciones)
-            # ts = TablaSimbolos(None, 'Main')
-            # ast.ejecutar(ts)    
+                ts = TablaSimbolos(Generador3D, None, 'Main')
+
+                for instruccion in ast.instrucciones:
+                    if isinstance(instruccion, Funcion):
+                        fun = ts.obtenerFuncion(instruccion.identificador)
+                        if fun is None:
+                            instruccion.ejecutar(ts)
             
-        
-        # print(Program.console)
-        # tabla = Program.tabla
-        # Program.printTabla(tabla)
-        
-        return {
-            'resultado': Program.console
-        }
+            
+                main = ts.obtenerFuncion("main")
+                if main is not None:
+                    codigo = main.instrucciones.codigo
+                    
+                    for intr in codigo:
+                        intr.ejecutar3D(ts)
+
+            
+                
+
+    return {
+        'resultado': Generador3D.generarCodigo()
+    }
 
 
 if __name__ == "__main__":

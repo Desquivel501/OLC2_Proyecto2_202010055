@@ -1,6 +1,6 @@
 from AST.misc.error import Error_
 from AST.Instruccion.Instruccion import Instruccion
-from Entorno.Tipos import Tipo, Tipos
+
 from Entorno.TablaSimbolos import TablaSimbolos
 from AST.Expresion.Expresion import Expresion
 

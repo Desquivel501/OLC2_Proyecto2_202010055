@@ -1,7 +1,7 @@
 
 from AST.Expresion.Expresion import Expresion
 from AST.Instruccion.Instruccion import Instruccion
-from Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 
 
 class Else(Expresion, Instruccion):

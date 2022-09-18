@@ -4,7 +4,7 @@ from Entorno.Simbolos.InstanciaVector import InstanciaVector
 from Entorno.Simbolos.InstanciaStruct import InstanciaStruct
 from AST.Instruccion.Instruccion import Instruccion
 from Entorno.Simbolos.Funcion import Funcion
-from Entorno.Tipos import Tipos
+from Entorno.Retorno import Tipos
 from AST.misc.error import Error_
 from Entorno.Simbolo import Simbolo
 from AST.Expresion.Expresion import Expresion

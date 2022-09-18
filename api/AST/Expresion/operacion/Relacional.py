@@ -1,8 +1,8 @@
 from cmath import sqrt
-from Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 from AST.Expresion.Expresion import Expresion
 from AST.misc.error import Error_
-from Entorno.Tipos import Tipos, definirTipo
+
 from AST.Expresion.operacion.Operacion import Operador, Operacion
 
 class Relacional(Operacion):

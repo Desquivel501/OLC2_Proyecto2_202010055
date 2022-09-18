@@ -1,4 +1,4 @@
-from Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 from AST.misc.Program import Program
 from AST.Instruccion.Instruccion import Instruccion
 

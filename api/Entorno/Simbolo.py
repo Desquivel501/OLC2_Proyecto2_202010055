@@ -1,5 +1,6 @@
 from AST.Expresion.Expresion import Expresion
-from Entorno.Tipos import Tipo
+from Entorno.Retorno import Tipos
+
 from enum import Enum
 
 
@@ -7,11 +8,12 @@ class Simbolo:
     def __init__(self):
         self.valor = None
         self.id = None
-        self.tipo = None
+        self.tipo = Tipos.NULL
         self.simbolo = None
         self.mut = None
         self.linea = 0
         self.columna = 0
+        self.direccionRelativa = 0
         
         #----------------------FUNCION
         self.parametros = []
@@ -32,9 +34,15 @@ class Simbolo:
         
         
     
-    def iniciarPrimitivo(self, id: str, tipo: Tipo, valor:Expresion, mut:bool):
+    def iniciarPrimitivo(self, id: str, tipo: Tipos, valor:Expresion, direccionRelativa,  mut = False):
         self.valor = valor
         self.id = id
         self.tipo = tipo
         self.mut = mut
-        
+        self.direccionRelativa = direccionRelativa
+    
+    def iniciarFuncion(self, identificador,listaParametros,listaInstrucciones, tipo, ):
+        self.identificador = identificador
+        self.tipo = tipo
+        self.parametros = listaParametros
+        self.instrucciones = listaInstrucciones

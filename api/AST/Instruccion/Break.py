@@ -1,7 +1,7 @@
 from AST.misc.Program import Program
 from AST.Instruccion.Instruccion import Instruccion
 from AST.Expresion.Expresion import Expresion
-from Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 
 class Break(Instruccion):
 

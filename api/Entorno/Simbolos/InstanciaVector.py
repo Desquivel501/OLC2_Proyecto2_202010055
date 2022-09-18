@@ -3,7 +3,7 @@ from Entorno.Simbolos.InstanciaStruct import InstanciaStruct
 from Entorno.Simbolo import Simbolo
 from AST.misc.error import Error_
 
-from Entorno.Tipos import Tipo, Tipos
+
 from AST.Expresion.Expresion import Expresion
 
 class InstanciaVector(Expresion, Simbolo):

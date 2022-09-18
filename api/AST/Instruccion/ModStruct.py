@@ -2,7 +2,7 @@
 
 
 import copy
-from api.Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 from AST.Expresion.Identificador import Identificador
 from Entorno.Simbolos.InstanciaStruct import InstanciaStruct
 from AST.Instruccion.Instruccion import Instruccion

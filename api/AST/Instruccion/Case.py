@@ -1,6 +1,6 @@
 from AST.misc.Program import Program
 from AST.Instruccion.Instruccion import Instruccion
-from Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 
 
 class Case(Instruccion):

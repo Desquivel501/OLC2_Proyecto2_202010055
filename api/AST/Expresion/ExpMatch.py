@@ -2,12 +2,12 @@
 
 from AST.Expresion.Else import Else
 from Entorno.Simbolo import Simbolo
-from AST.misc import driver
+
 from AST.Expresion.Expresion import Expresion
 from Entorno.TablaSimbolos import TablaSimbolos
-from Entorno.Tipos import definirTipo, Tipos
+
 from AST.misc.error import Error_
-from Entorno.Retorno import Retorno
+from Entorno.Retorno import Retorno, Tipos
 
 
 

@@ -2,11 +2,12 @@ import copy
 from AST.Instruccion.Instruccion import Instruccion
 from AST.Expresion.Expresion import Expresion
 from Entorno.TablaSimbolos import TablaSimbolos
-from Entorno.Tipos import Tipo
+from Entorno.Retorno import Tipos
+
 
 class Asignacion(Instruccion):
     
-    def __init__(self, identificador: str, valor: Expresion, tipo: Tipo, mut:bool, linea:int, columna: int , referencia = False):
+    def __init__(self, identificador: str, valor: Expresion, tipo: Tipos, mut:bool, linea:int, columna: int , referencia = False):
         self.identificador = identificador
         self.valor = valor
         self.tipo = tipo
