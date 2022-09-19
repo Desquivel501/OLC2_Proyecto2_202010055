@@ -21,8 +21,11 @@ export const Interprete = () => {
       .then(resp => resp.json())
       .then(data => {
         setConsoleText(data.resultado)
+        navigator.clipboard.writeText(data.resultado)
       })
       .catch(console.error);
+      
+      
   }
 
   const clear = () => {

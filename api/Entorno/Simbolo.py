@@ -41,6 +41,7 @@ class Simbolo:
         self.mut = mut
         self.direccionRelativa = direccionRelativa
     
+    
     def iniciarFuncion(self, identificador,listaParametros,listaInstrucciones, tipo, ):
         self.identificador = identificador
         self.tipo = tipo

@@ -189,10 +189,8 @@ class Aritmetica(Operacion):
                 salida += f'{fin}: \n'
                 
 
-                #-----------EXPLICACION CODIGO
+                #-----------EXPLICACION RAIZ
                 # Raiz cuadrada con algoritmo babilonico
-                # https://es.wikipedia.org/wiki/C%C3%A1lculo_de_la_ra%C3%ADz_cuadrada#Algoritmo_babil%C3%B3nico
-                    
                 # error = 0.00001;  // Este es el error de la operacion
                 # s = numero;
                 # while ((s - numero / s) > error): // Se repite el ciclo hasta que se llega a la presicion deseada
