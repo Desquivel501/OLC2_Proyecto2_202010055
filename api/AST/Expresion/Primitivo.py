@@ -13,7 +13,6 @@ class Primitivo(Expresion):
     def obtener3D(self, ts) -> Retorno:
         SALIDA = ""
         RETORNO = Retorno()
-        print(self.tipo)
         
         temp = ts.generador.obtenerTemporal()
         
@@ -42,12 +41,12 @@ class Primitivo(Expresion):
             if self.etiquetaVerdadera != "" and self.valor:
                 SALIDA += f'goto {self.etiquetaVerdadera}; \n'
                 RETORNO.etiquetaV = self.etiquetaVerdadera
-                RETORNO.etiquetaV = self.etiquetaFalsa
+                RETORNO.etiquetaF = self.etiquetaFalsa
             
             elif self.etiquetaFalsa != "" and not self.valor:
                 SALIDA += f'goto {self.etiquetaFalsa}; \n'
                 RETORNO.etiquetaV = self.etiquetaVerdadera
-                RETORNO.etiquetaV = self.etiquetaFalsa
+                RETORNO.etiquetaF = self.etiquetaFalsa
             
             else:
                 if self.valor:

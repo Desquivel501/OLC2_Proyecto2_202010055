@@ -22,7 +22,7 @@ class Aritmetica(Operacion):
         if self.unaria is True:
             temp = ts.generador.obtenerTemporal()
             salida += valor_left.codigo
-            salida += f'{valor_left.temporal} = 0 - {valor_left.temporal};\n'
+            salida += f'{temp} = 0 - {valor_left.temporal};\n'
             retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
             return retorno
         
@@ -146,9 +146,7 @@ class Aritmetica(Operacion):
              
                 
         
-        
-        
-        
+
         
         if self.operador == Operador.SQRT:
  
@@ -161,9 +159,6 @@ class Aritmetica(Operacion):
                 temp1 = ts.generador.obtenerTemporal()
                 temp2 = ts.generador.obtenerTemporal()
                 temp3 = ts.generador.obtenerTemporal()
-                temp4 = ts.generador.obtenerTemporal()
-                temp5 = ts.generador.obtenerTemporal()
-                temp6 = ts.generador.obtenerTemporal()
                 res = ts.generador.obtenerTemporal()
                 
                 

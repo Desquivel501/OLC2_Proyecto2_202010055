@@ -56,8 +56,7 @@ def interpretar():
         Program.tabla = []
         Program.errores = []
         data = request.json
-        print(data)
-       
+
         instrucciones = data.get('instrucciones')
         
         if instrucciones != "":
@@ -78,17 +77,9 @@ def interpretar():
                 if main is not None:
                     codigo = main.instrucciones.codigo
                     
-                    SALIDA = ""
                     for intr in codigo:
                         ts.generador.agregarInstruccion(intr.ejecutar3D(ts)) 
-                        # SALIDA = 
-                        # print(SALIDA)
-                    
-                    # print(SALIDA)
-                    
-                    # ts.generador.agregarInstruccion() 
-                        
-
+  
             
                 
 

@@ -10,7 +10,6 @@ class Generador:
     def obtenerTemporal(self):
         temp = "t" + self.temporal.__str__()
         self.temporal += 1
-        print(self.temporal)
         return temp
     
     def obtenerEtiqueta(self):

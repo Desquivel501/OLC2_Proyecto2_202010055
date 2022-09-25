@@ -16,10 +16,14 @@ class Identificador(Expresion):
         self.linea = linea
         self.columna = columna
         
+        self.etiquetaVerdadera = ""
+        self.etiquetaFalsa = ""
+        
         
     def obtener3D(self, ts: TablaSimbolos) -> Retorno:
         
         SALIDA = ""
+        RETORNO = Retorno()
         
         simbolo = ts.buscar(self.identificador)
         if simbolo is not None:
@@ -30,10 +34,16 @@ class Identificador(Expresion):
             SALIDA += f"{temp1} = SP + {simbolo.direccionRelativa};\n"
             SALIDA += f"{temp2} = Stack[(int){temp1}];\n"
             
-            retorno = Retorno()
-            retorno.iniciarRetorno(SALIDA, "", temp2, simbolo.tipo)
             
-            return retorno
+            if simbolo.tipo == Tipos.BOOLEAN and self.etiquetaVerdadera != "":
+                SALIDA += f'if({temp2} == 1) goto {self.etiquetaVerdadera};\n'
+                SALIDA += f'goto {self.etiquetaFalsa};\n '
+                RETORNO.etiquetaV = self.etiquetaVerdadera
+                RETORNO.etiquetaF = self.etiquetaFalsa
+            
+            RETORNO.iniciarRetorno(SALIDA, "", temp2, simbolo.tipo)
+            
+            return RETORNO
         
         else:
             Error_("Semantico",f'No se ha encontrado la variable "{self.identificador}"',ts.env, self.linea, self.columna)

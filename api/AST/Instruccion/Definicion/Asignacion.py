@@ -65,7 +65,6 @@ class Asignacion(Instruccion):
                 return SALIDA
             
             else:
-                tamanioTS = ts.tamanio
                 temp = ts.generador.obtenerTemporal()
                 
                 SALIDA += "/* RE-DECLARACION  VARIABLE */\n"
@@ -74,7 +73,7 @@ class Asignacion(Instruccion):
                 SALIDA += f"Stack[(int){temp}] = {valor.temporal};\n"
                     
                 simbolo = Simbolo()
-                simbolo.iniciarPrimitivo(self.identificador, self.tipo, self.valor, tamanioTS, self.mut)  
+                simbolo.iniciarPrimitivo(self.identificador, self.tipo, self.valor, simbolo.direccionRelativa, self.mut)  
                 ts.add(self.identificador,simbolo,self.linea, self.columna)
                 
                 # ts.generador.agregarInstruccion(SALIDA) 

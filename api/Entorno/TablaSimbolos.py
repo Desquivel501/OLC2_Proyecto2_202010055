@@ -26,6 +26,8 @@ class TablaSimbolos:
         
         self.generador = generador
         self.tamanio = 0
+        self.Display = [0] * 1000
+        self.ptr = 0
 
     def add(self, id: str, simbolo: Simbolo, linea, columna):
         self.tabla[id] = simbolo

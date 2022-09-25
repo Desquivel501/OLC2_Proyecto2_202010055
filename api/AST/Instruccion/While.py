@@ -5,6 +5,8 @@ from AST.misc.Program import Program
 from AST.Instruccion.Instruccion import Instruccion
 from Entorno.Retorno import Tipos
 from AST.misc.error import Error_
+from AST.misc.Display_obj import Display_obj
+from Entorno.Retorno import Retorno
 
 
 class While(Instruccion):
@@ -16,6 +18,43 @@ class While(Instruccion):
         self.columna = columna
 
 
-    def ejecutar3D(self, entorno):
-        pass
+    def ejecutar3D(self, ts: TablaSimbolos):
         
+        ts_local = TablaSimbolos(ts.generador, ts, "WHILE")
+        ts_local.Display = ts.Display
+        ts_local.ptr = ts.ptr
+        ts_local.tamanio = ts.tamanio
+        
+        SALIDA = ""
+        
+        ETQ_INICIO = ts.generador.obtenerEtiqueta()
+        ETQ_SALIDA = ts.generador.obtenerEtiqueta()
+        
+        self.condicion.etiquetaVerdadera = ts.generador.obtenerEtiqueta();
+        self.condicion.etiquetaFalsa = ETQ_SALIDA
+        
+        condicion = self.condicion.obtener3D(ts)
+        
+        if condicion.tipo != Tipos.BOOLEAN:
+            Error_("Semantico", "La condicion en un while debe ser de tipo BOOLEAN", ts.env, self.linea, self.columna)
+            return SALIDA
+        
+        
+        DISPLAY = Display_obj()
+        DISPLAY.inicio = ETQ_INICIO
+        DISPLAY.salida = ETQ_SALIDA
+        ts.ptr += 1
+        ts.Display[ts.ptr] = DISPLAY
+        
+        
+        SALIDA += "/* INSTRUCCION WHILE */\n"
+        SALIDA += f'{ETQ_INICIO}:\n'
+        SALIDA += condicion.codigo
+        SALIDA += f'{self.condicion.etiquetaVerdadera}:\n'
+        SALIDA += self.cuerpo.ejecutar3D(ts_local)
+        SALIDA += f'goto {ETQ_INICIO};\n'
+        SALIDA += f'{ETQ_SALIDA}:\n'
+        
+        ts.ptr -= 1
+        
+        return SALIDA
