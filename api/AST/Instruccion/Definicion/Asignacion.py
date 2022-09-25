@@ -51,18 +51,18 @@ class Asignacion(Instruccion):
             ts.add(self.identificador,simbolo,self.linea, self.columna)
             ts.tamanio += 1
             
-            ts.generador.agregarInstruccion(SALIDA) 
+            return SALIDA
             
             
         else:
             
             if  simbolo.tipo != valor.tipo:
                 Error_('Semantico', f'El valor de la variable no coincide con su tipo: {simbolo.tipo} -> {valor.tipo}', ts.env, self.linea, self.columna)     
-                return
+                return SALIDA
             
             elif simbolo.mut is False:
                 Error_("Semantico", "No se puede cambiar el valor de una constante", ts.env, self.linea, self.columna)    
-                return
+                return SALIDA
             
             else:
                 tamanioTS = ts.tamanio
@@ -77,7 +77,8 @@ class Asignacion(Instruccion):
                 simbolo.iniciarPrimitivo(self.identificador, self.tipo, self.valor, tamanioTS, self.mut)  
                 ts.add(self.identificador,simbolo,self.linea, self.columna)
                 
-                ts.generador.agregarInstruccion(SALIDA) 
+                # ts.generador.agregarInstruccion(SALIDA) 
+                return SALIDA
                  
         
 

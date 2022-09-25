@@ -68,6 +68,9 @@ class Operacion(Expresion):
         self.left = left
         self.right = right
         self.operador = getOperador(operador)
+        self.op_cad = operador
         self.unaria = unaria
         self.linea = linea
         self.columna = columna
+        self.etiquetaVerdadera = ""
+        self.etiquetaFalsa = ""

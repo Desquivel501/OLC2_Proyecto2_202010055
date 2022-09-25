@@ -10,7 +10,10 @@ class Statement(Instruccion):
         self.columna = columna
 
 
-    def ejecutar3D(self, entorno):
-        pass
+    def ejecutar3D(self, ts):
+        SALIDA = ""
+        for ins in self.codigo :
+            SALIDA += ins.ejecutar3D(ts)
 
+        return SALIDA
     

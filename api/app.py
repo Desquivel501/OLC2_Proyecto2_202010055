@@ -78,8 +78,16 @@ def interpretar():
                 if main is not None:
                     codigo = main.instrucciones.codigo
                     
+                    SALIDA = ""
                     for intr in codigo:
-                        intr.ejecutar3D(ts)
+                        ts.generador.agregarInstruccion(intr.ejecutar3D(ts)) 
+                        # SALIDA = 
+                        # print(SALIDA)
+                    
+                    # print(SALIDA)
+                    
+                    # ts.generador.agregarInstruccion() 
+                        
 
             
                 

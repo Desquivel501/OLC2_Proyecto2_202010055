@@ -7,39 +7,54 @@ class Primitivo(Expresion):
         self.columna = columna
         self.tipo = tipo
         
+        self.etiquetaVerdadera = ""
+        self.etiquetaFalsa = ""
+        
     def obtener3D(self, ts) -> Retorno:
-        salida = ""
-        retorno = Retorno()
+        SALIDA = ""
+        RETORNO = Retorno()
         print(self.tipo)
+        
+        temp = ts.generador.obtenerTemporal()
         
         #----------------------------------------------------------------FLOAT O INT
         if self.tipo in [Tipos.INT, Tipos.FLOAT]:
-           temp = ts.generador.obtenerTemporal()
-           salida += f'{temp} = {self.valor}; \n'
-           retorno.iniciarRetorno(salida, "", temp, self.tipo)
+           
+           SALIDA += f'{temp} = {self.valor}; \n'
+           RETORNO.iniciarRetorno(SALIDA, "", temp, self.tipo)
            
         #----------------------------------------------------------------STRING O STR
         if self.tipo in [Tipos.STRING, Tipos.STR]:
-            temp = ts.generador.obtenerTemporal()
-            salida += f'{temp} = HP; \n'
+            SALIDA += f'{temp} = HP; \n'
            
             for char in self.valor:
                valor = ord(char)
-               salida += f'Heap[HP] = {valor}; \n'
-               salida += f'HP = HP + 1; \n'
+               SALIDA += f'Heap[HP] = {valor}; \n'
+               SALIDA += f'HP = HP + 1; \n'
             
-            salida += f'Heap[HP] = 0; \n'
-            salida += f'HP = HP + 1; \n'
-            retorno.iniciarRetorno(salida, "", temp, self.tipo)
+            SALIDA += f'Heap[HP] = 0; \n'
+            SALIDA += f'HP = HP + 1; \n'
+            RETORNO.iniciarRetorno(SALIDA, "", temp, self.tipo)
     
         #----------------------------------------------------------------BOOLEAN
         if self.tipo == Tipos.BOOLEAN:
-            temp = ts.generador.obtenerTemporal()
-            if self.valor:
-                salida += f'{temp} = 1; \n'
+            
+            if self.etiquetaVerdadera != "" and self.valor:
+                SALIDA += f'goto {self.etiquetaVerdadera}; \n'
+                RETORNO.etiquetaV = self.etiquetaVerdadera
+                RETORNO.etiquetaV = self.etiquetaFalsa
+            
+            elif self.etiquetaFalsa != "" and not self.valor:
+                SALIDA += f'goto {self.etiquetaFalsa}; \n'
+                RETORNO.etiquetaV = self.etiquetaVerdadera
+                RETORNO.etiquetaV = self.etiquetaFalsa
+            
             else:
-                salida += f'{temp} = 0; \n'
+                if self.valor:
+                    SALIDA += f'{temp} = 1; \n'
+                else:
+                    SALIDA += f'{temp} = 0; \n'
                 
-            retorno.iniciarRetorno(salida, "", temp, self.tipo)
+            RETORNO.iniciarRetorno(SALIDA, "", temp, self.tipo)
         
-        return retorno
+        return RETORNO

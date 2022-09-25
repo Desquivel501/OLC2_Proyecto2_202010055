@@ -27,14 +27,14 @@ class Print_(Instruccion):
             salida += "/* IMPRIMIR ENTERO */\n"
             salida += valor.codigo
             salida += f"printf(\"%d\\n\", (int){valor.temporal});\n"
-            ts.generador.agregarInstruccion(salida) 
+            # ts.generador.agregarInstruccion(salida) 
            
         #----------------------------------------------------------------INT    
         if valor.tipo == Tipos.FLOAT:
             salida += "/* IMPRIMIR FLOAT */\n"
             salida += valor.codigo
             salida += f"printf(\"%f\\n\", (float){valor.temporal});\n"
-            ts.generador.agregarInstruccion(salida) 
+            # ts.generador.agregarInstruccion(salida) 
             
         #----------------------------------------------------------------STRING O STR
         if valor.tipo in [Tipos.STRING, Tipos.STR]:
@@ -55,9 +55,9 @@ class Print_(Instruccion):
             salida += f'    goto {inicio};\n'
             salida += f'{fin}:\n'
             salida += f'    printf("\\n");\n'
-            ts.generador.agregarInstruccion(salida) 
+            # ts.generador.agregarInstruccion(salida) 
 
-        #----------------------------------------------------------------INT    
+        #----------------------------------------------------------------BOOLEAN    
         if valor.tipo == Tipos.BOOLEAN:
             etq_true = ts.generador.obtenerEtiqueta()
             etq_false = ts.generador.obtenerEtiqueta()
@@ -79,7 +79,8 @@ class Print_(Instruccion):
             salida += f"    printf(\"%c\", (char)101);\n"
             salida += f'{etq_true}:\n'
             salida += f'    printf("\\n");\n'
-            ts.generador.agregarInstruccion(salida) 
+            # ts.generador.agregarInstruccion(salida) 
             
         return salida
-        
+
+
