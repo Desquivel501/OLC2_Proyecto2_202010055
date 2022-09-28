@@ -7,6 +7,7 @@ from AST.Expresion.Expresion import Expresion
 from AST.misc.Program import Program
 from Entorno.Retorno import Retorno, Tipos, Tipos
 from Entorno.TablaSimbolos import TablaSimbolos
+from Generador import Generador
 
 class Print_(Instruccion):
 
@@ -21,27 +22,26 @@ class Print_(Instruccion):
         valor = self.valor.obtener3D(ts)
         
         #----------------------------------------------------------------INT
-        print(valor.tipo)
-        
+    
         if valor.tipo == Tipos.INT:
             salida += "/* IMPRIMIR ENTERO */\n"
             salida += valor.codigo
             salida += f"printf(\"%d\\n\", (int){valor.temporal});\n"
-            # ts.generador.agregarInstruccion(salida) 
+            # Generador.agregarInstruccion(salida) 
            
         #----------------------------------------------------------------INT    
         if valor.tipo == Tipos.FLOAT:
             salida += "/* IMPRIMIR FLOAT */\n"
             salida += valor.codigo
             salida += f"printf(\"%f\\n\", (float){valor.temporal});\n"
-            # ts.generador.agregarInstruccion(salida) 
+            # Generador.agregarInstruccion(salida) 
             
         #----------------------------------------------------------------STRING O STR
         if valor.tipo in [Tipos.STRING, Tipos.STR]:
-            temp = ts.generador.obtenerTemporal()
-            caracter = ts.generador.obtenerTemporal()
-            inicio = ts.generador.obtenerEtiqueta()
-            fin = ts.generador.obtenerEtiqueta()
+            temp = Generador.obtenerTemporal()
+            caracter = Generador.obtenerTemporal()
+            inicio = Generador.obtenerEtiqueta()
+            fin = Generador.obtenerEtiqueta()
 
             salida += "/* IMPRIMIR CADENA */\n"
             salida += valor.codigo
@@ -55,12 +55,12 @@ class Print_(Instruccion):
             salida += f'    goto {inicio};\n'
             salida += f'{fin}:\n'
             salida += f'    printf("\\n");\n'
-            # ts.generador.agregarInstruccion(salida) 
+            # Generador.agregarInstruccion(salida) 
 
         #----------------------------------------------------------------BOOLEAN    
         if valor.tipo == Tipos.BOOLEAN:
-            etq_true = ts.generador.obtenerEtiqueta()
-            etq_false = ts.generador.obtenerEtiqueta()
+            etq_true = Generador.obtenerEtiqueta()
+            etq_false = Generador.obtenerEtiqueta()
             
             salida += "/* IMPRIMIR BOOLEAN */\n"
             salida += valor.codigo
@@ -79,7 +79,7 @@ class Print_(Instruccion):
             salida += f"    printf(\"%c\", (char)101);\n"
             salida += f'{etq_true}:\n'
             salida += f'    printf("\\n");\n'
-            # ts.generador.agregarInstruccion(salida) 
+            # Generador.agregarInstruccion(salida) 
             
         return salida
 

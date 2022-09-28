@@ -7,7 +7,7 @@ from Entorno.Retorno import Tipos
 from AST.misc.error import Error_
 from AST.misc.Display_obj import Display_obj
 from Entorno.Retorno import Retorno
-
+from Generador import Generador
 
 class While(Instruccion):
 
@@ -20,17 +20,17 @@ class While(Instruccion):
 
     def ejecutar3D(self, ts: TablaSimbolos):
         
-        ts_local = TablaSimbolos(ts.generador, ts, "WHILE")
+        ts_local = TablaSimbolos(ts, "WHILE")
         ts_local.Display = ts.Display
         ts_local.ptr = ts.ptr
         ts_local.tamanio = ts.tamanio
         
         SALIDA = ""
         
-        ETQ_INICIO = ts.generador.obtenerEtiqueta()
-        ETQ_SALIDA = ts.generador.obtenerEtiqueta()
+        ETQ_INICIO = Generador.obtenerEtiqueta()
+        ETQ_SALIDA = Generador.obtenerEtiqueta()
         
-        self.condicion.etiquetaVerdadera = ts.generador.obtenerEtiqueta();
+        self.condicion.etiquetaVerdadera = Generador.obtenerEtiqueta();
         self.condicion.etiquetaFalsa = ETQ_SALIDA
         
         condicion = self.condicion.obtener3D(ts)

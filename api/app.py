@@ -9,6 +9,7 @@ from Generador import Generador
 
 from Analizador.parser import parser
 from Entorno.Simbolos.Funcion import Funcion
+from AST.misc.error import Error_
 
 app = Flask(__name__)
 CORS(app)
@@ -49,7 +50,7 @@ def interpretar():
     
     # generador = Generador()
     
-    Generador3D.reiniciar()
+    Generador.reiniciar()
 
     if request.method == 'POST':
         Program.console = ""
@@ -64,13 +65,12 @@ def interpretar():
             if len(Program.errores) <= 0:
 
                 ast: Ast = parser.parse(instrucciones)
-                ts = TablaSimbolos(Generador3D, None, 'Main')
+                ts = TablaSimbolos(None, 'Main')
 
                 for instruccion in ast.instrucciones:
+                    
                     if isinstance(instruccion, Funcion):
-                        fun = ts.obtenerFuncion(instruccion.identificador)
-                        if fun is None:
-                            instruccion.ejecutar(ts)
+                        instruccion.ejecutarFuncion(ts)
             
             
                 main = ts.obtenerFuncion("main")
@@ -78,13 +78,13 @@ def interpretar():
                     codigo = main.instrucciones.codigo
                     
                     for intr in codigo:
-                        ts.generador.agregarInstruccion(intr.ejecutar3D(ts)) 
+                        Generador.agregarInstruccion(intr.ejecutar3D(ts)) 
   
             
                 
 
     return {
-        'resultado': Generador3D.generarCodigo()
+        'resultado': Generador.generarCodigo()
     }
 
 

@@ -8,7 +8,7 @@ from AST.Instruccion.Instruccion import Instruccion
 from Entorno.Retorno import Tipos
 from AST.misc.error import Error_
 from AST.misc.Display_obj import Display_obj
-
+from Generador import Generador
 
 class Loop(Instruccion):
 
@@ -21,15 +21,15 @@ class Loop(Instruccion):
 
     def ejecutar3D(self, ts):
         
-        ts_local = TablaSimbolos(ts.generador, ts, "LOOP")
+        ts_local = TablaSimbolos(ts, "LOOP")
         ts_local.Display = ts.Display
         ts_local.ptr = ts.ptr
         ts_local.tamanio = ts.tamanio
                 
         SALIDA = ""
         
-        ETQ_INICIO = ts.generador.obtenerEtiqueta()
-        ETQ_SALIDA = ts.generador.obtenerEtiqueta()
+        ETQ_INICIO = Generador.obtenerEtiqueta()
+        ETQ_SALIDA = Generador.obtenerEtiqueta()
         
         DISPLAY = Display_obj()
         DISPLAY.inicio = ETQ_INICIO

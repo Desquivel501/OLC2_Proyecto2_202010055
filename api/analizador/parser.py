@@ -316,14 +316,14 @@ def p_parametro(p):
               | MUT ID D_PUNTO AMP tipo_funcion
     """
     if len(p) == 4 and p.slice[1].type == "ID":
-        p[0] = Parametro(p[1], p[3], False)
+        p[0] = Asignacion(p[1], None, p[3], False, p.lineno(1), p.lexpos(1), False)
     elif len(p) == 6 and p.slice[1].type == "ID":
-        p[0] = Parametro(p[1], p[5], False)
+        p[0] = Asignacion(p[1], None, p[5], True, p.lineno(1), p.lexpos(1), True)
         
     elif len(p) == 5 and p.slice[1].type == "MUT":
-        p[0] = Parametro(p[2], p[4], True)
+        p[0] = Asignacion(p[2], None, p[4], True, p.lineno(1), p.lexpos(1), False)
     elif len(p) == 6 and p.slice[1].type == "MUT":
-        p[0] = Parametro(p[2], p[5], True)
+        p[0] = Asignacion(p[2], None, p[5], True, p.lineno(1), p.lexpos(1), True)
         
         
 

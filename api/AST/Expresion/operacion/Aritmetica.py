@@ -5,6 +5,7 @@ from AST.misc.error import Error_
 
 from AST.Expresion.operacion.Operacion import Operador, Operacion
 from Entorno.TablaSimbolos import TablaSimbolos
+from Generador import Generador
 
 class Aritmetica(Operacion):
     
@@ -20,7 +21,7 @@ class Aritmetica(Operacion):
         retorno = Retorno()
         
         if self.unaria is True:
-            temp = ts.generador.obtenerTemporal()
+            temp = Generador.obtenerTemporal()
             salida += valor_left.codigo
             salida += f'{temp} = 0 - {valor_left.temporal};\n'
             retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
@@ -28,8 +29,8 @@ class Aritmetica(Operacion):
         
         if self.operador == Operador.ABS:
             salida += valor_left.codigo
-            temp = ts.generador.obtenerTemporal()
-            etq_false = ts.generador.obtenerEtiqueta()
+            temp = Generador.obtenerTemporal()
+            etq_false = Generador.obtenerEtiqueta()
             salida += f'if((int){valor_left.temporal} >= 0) goto {etq_false};\n'
             salida += f'    {valor_left.temporal} = 0 - {valor_left.temporal};\n'
             salida += f'{etq_false}:\n'
@@ -45,10 +46,10 @@ class Aritmetica(Operacion):
                 Error_("Semantico",f'La operacion POW solo es valida con valores INT',ts.env, self.linea, self.columna)
             elif valor_left.tipo == valor_right.tipo:
                 
-                inicio = ts.generador.obtenerEtiqueta()
-                fin = ts.generador.obtenerEtiqueta()
-                temp = ts.generador.obtenerTemporal()
-                temp2 = ts.generador.obtenerTemporal()
+                inicio = Generador.obtenerEtiqueta()
+                fin = Generador.obtenerEtiqueta()
+                temp = Generador.obtenerTemporal()
+                temp2 = Generador.obtenerTemporal()
                 salida += valor_left.codigo
                 salida += valor_right.codigo
                 
@@ -90,7 +91,7 @@ class Aritmetica(Operacion):
             if valor_left.tipo == valor_right.tipo:
                 salida += valor_left.codigo
                 salida += valor_right.codigo
-                temp = ts.generador.obtenerTemporal()
+                temp = Generador.obtenerTemporal()
                 salida += f'{temp} = {valor_left.temporal} + {valor_right.temporal};\n'
                 retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
                 return retorno
@@ -102,7 +103,7 @@ class Aritmetica(Operacion):
             if valor_left.tipo == valor_right.tipo:
                 salida += valor_left.codigo
                 salida += valor_right.codigo
-                temp = ts.generador.obtenerTemporal()
+                temp = Generador.obtenerTemporal()
                 salida += f'{temp} = {valor_left.temporal} - {valor_right.temporal};\n'
                 retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
                 return retorno
@@ -113,7 +114,7 @@ class Aritmetica(Operacion):
             if valor_left.tipo == valor_right.tipo:
                 salida += valor_left.codigo
                 salida += valor_right.codigo
-                temp = ts.generador.obtenerTemporal()
+                temp = Generador.obtenerTemporal()
                 salida += f'{temp} = {valor_left.temporal} * {valor_right.temporal};\n'
                 retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
                 return retorno
@@ -126,7 +127,7 @@ class Aritmetica(Operacion):
             elif valor_left.tipo == valor_right.tipo:
                 salida += valor_left.codigo
                 salida += valor_right.codigo
-                temp = ts.generador.obtenerTemporal()
+                temp = Generador.obtenerTemporal()
                 salida += f'{temp} = {valor_left.temporal} / {valor_right.temporal};\n'
                 retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
                 return retorno
@@ -137,7 +138,7 @@ class Aritmetica(Operacion):
             if valor_left.tipo == valor_right.tipo:
                 salida += valor_left.codigo
                 salida += valor_right.codigo
-                temp = ts.generador.obtenerTemporal()
+                temp = Generador.obtenerTemporal()
                 salida += f'{temp} = {valor_left.temporal} % {valor_right.temporal};\n'
                 retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
                 return retorno
@@ -150,16 +151,16 @@ class Aritmetica(Operacion):
         
         if self.operador == Operador.SQRT:
  
-                error = ts.generador.obtenerTemporal()
-                inicio = ts.generador.obtenerEtiqueta()
-                fin = ts.generador.obtenerEtiqueta()
+                error = Generador.obtenerTemporal()
+                inicio = Generador.obtenerEtiqueta()
+                fin = Generador.obtenerEtiqueta()
                 
                 
-                cond = ts.generador.obtenerTemporal()
-                temp1 = ts.generador.obtenerTemporal()
-                temp2 = ts.generador.obtenerTemporal()
-                temp3 = ts.generador.obtenerTemporal()
-                res = ts.generador.obtenerTemporal()
+                cond = Generador.obtenerTemporal()
+                temp1 = Generador.obtenerTemporal()
+                temp2 = Generador.obtenerTemporal()
+                temp3 = Generador.obtenerTemporal()
+                res = Generador.obtenerTemporal()
                 
                 
                 

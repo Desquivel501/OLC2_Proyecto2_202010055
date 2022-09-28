@@ -1,5 +1,6 @@
 from Entorno.Retorno import Retorno, Tipos, Tipos
 from AST.Expresion.Expresion import Expresion
+from Generador import Generador
 class Primitivo(Expresion):
     def __init__(self, valor, tipo, linea: int, columna: int):
         self.valor = valor
@@ -14,7 +15,7 @@ class Primitivo(Expresion):
         SALIDA = ""
         RETORNO = Retorno()
         
-        temp = ts.generador.obtenerTemporal()
+        temp = Generador.obtenerTemporal()
         
         #----------------------------------------------------------------FLOAT O INT
         if self.tipo in [Tipos.INT, Tipos.FLOAT]:

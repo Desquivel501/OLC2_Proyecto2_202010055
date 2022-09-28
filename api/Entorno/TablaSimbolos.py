@@ -12,7 +12,7 @@ from Generador import Generador
 
 class TablaSimbolos:
 
-    def __init__(self, generador: Generador, anterior, env):
+    def __init__(self, anterior, env):
         self.env = env
         self.anterior = anterior
         self.tabla = {}
@@ -24,7 +24,7 @@ class TablaSimbolos:
         self.vectores = {}
         self.modulos = {}
         
-        self.generador = generador
+        # self.generador = generador
         self.tamanio = 0
         self.Display = [0] * 1000
         self.ptr = 0
@@ -156,31 +156,31 @@ class TablaSimbolos:
 
 #-------------------------------------------TIPOS REPORTE-----------------------------------------------
 
-    def getTiposNombre(self, s):
+    # def getTiposNombre(self, s):
         
-        if isinstance(s, Tipo):
-            s = s.tipo
+    #     if isinstance(s, Tipos):
+    #         s = s.tipo
         
-        if s == Tipos.INT:
-            return "i64"
-        if s == Tipos.FLOAT:
-            return "f64"
-        if s == Tipos.BOOLEAN:
-            return "bool"
-        if s == Tipos.STR:
-            return "&str"
-        if s == Tipos.STRING:
-            return "String"
-        if s == Tipos.CHAR:
-            return "char"
-        if s == Tipos.ARRAY_DATA:
-            return "Arreglo "
-        if s == Tipos.VECTOR_DATA:
-            return "Vector"
-        if s == Tipos.STRUCT:
-            return "Struct"
-        else:
-            return ""
+    #     if s == Tipos.INT:
+    #         return "i64"
+    #     if s == Tipos.FLOAT:
+    #         return "f64"
+    #     if s == Tipos.BOOLEAN:
+    #         return "bool"
+    #     if s == Tipos.STR:
+    #         return "&str"
+    #     if s == Tipos.STRING:
+    #         return "String"
+    #     if s == Tipos.CHAR:
+    #         return "char"
+    #     if s == Tipos.ARRAY_DATA:
+    #         return "Arreglo "
+    #     if s == Tipos.VECTOR_DATA:
+    #         return "Vector"
+    #     if s == Tipos.STRUCT:
+    #         return "Struct"
+    #     else:
+    #         return ""
             
 
     # def getTipos(self, simbolo):

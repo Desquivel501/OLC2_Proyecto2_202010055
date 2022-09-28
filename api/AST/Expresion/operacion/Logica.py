@@ -5,6 +5,7 @@ from AST.misc.error import Error_
 
 from AST.Expresion.operacion.Operacion import Operador, Operacion
 from Entorno.TablaSimbolos import TablaSimbolos
+from Generador import Generador
 
 class Logica(Operacion):
     
@@ -33,7 +34,7 @@ class Logica(Operacion):
 
         if self.operador == Operador.AND:
             
-            self.left.etiquetaVerdadera = ts.generador.obtenerEtiqueta()
+            self.left.etiquetaVerdadera = Generador.obtenerEtiqueta()
             self.left.etiquetaFalsa = self.etiquetaFalsa
             
             self.right.etiquetaVerdadera = self.etiquetaVerdadera
@@ -57,7 +58,7 @@ class Logica(Operacion):
         if self.operador == Operador.OR:
             
             self.left.etiquetaVerdadera = self.etiquetaVerdadera
-            self.left.etiquetaFalsa = ts.generador.obtenerEtiqueta()
+            self.left.etiquetaFalsa = Generador.obtenerEtiqueta()
             
             self.right.etiquetaVerdadera = self.etiquetaVerdadera
             self.right.etiquetaFalsa = self.etiquetaFalsa

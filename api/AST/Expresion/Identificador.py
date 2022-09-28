@@ -8,6 +8,7 @@ from AST.Expresion.Expresion import Expresion
 from Entorno.TablaSimbolos import TablaSimbolos
 
 from Entorno.Retorno import Retorno, Tipos
+from Generador import Generador
 
 class Identificador(Expresion):
     
@@ -27,8 +28,8 @@ class Identificador(Expresion):
         
         simbolo = ts.buscar(self.identificador)
         if simbolo is not None:
-            temp1 = ts.generador.obtenerTemporal()
-            temp2 = ts.generador.obtenerTemporal()
+            temp1 = Generador.obtenerTemporal()
+            temp2 = Generador.obtenerTemporal()
             
             SALIDA += "/* ACCESO A VARIABLE */\n"
             SALIDA += f"{temp1} = SP + {simbolo.direccionRelativa};\n"

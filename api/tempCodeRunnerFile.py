@@ -1,1 +1,1 @@
-Entorno
+obtenerFuncion

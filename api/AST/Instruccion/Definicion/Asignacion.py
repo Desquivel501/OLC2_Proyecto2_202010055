@@ -5,7 +5,7 @@ from Entorno.TablaSimbolos import TablaSimbolos
 from Entorno.Retorno import Tipos
 from AST.misc.error import Error_
 from Entorno.Simbolo import Simbolo
-
+from Generador import Generador
 
 class Asignacion(Instruccion):
     
@@ -18,32 +18,44 @@ class Asignacion(Instruccion):
         self.columna = columna
         
         self.referencia = referencia
+        self.entornoReferencia = None
         self.valorCompilado = None
+        
+        self.puntero_nuevo = ""
+        self.enFuncion = False
         
     def ejecutar3D(self, ts: TablaSimbolos):
 
         SALIDA = ""
         
-        valor = self.valor.obtener3D(ts)
+        valor = None
+        if self.valor is not None:
+            valor = self.valor.obtener3D(ts)
+        elif self.valorCompilado is not None:
+            valor = self.valorCompilado
+            
+        PUNTERO = "SP"
+        if self.enFuncion:
+            PUNTERO = self.puntero_nuevo
         
-        
+
         if self.tipo is not None:
             if self.tipo != valor.tipo:
                 Error_('Semantico', f'El valor de la variable no coincide con su tipo: {self.tipo} -> {valor.tipo}', ts.env, self.linea, self.columna)
                 return
         else:
             self.tipo = valor.tipo
-        
+    
         
         simbolo = ts.buscar(self.identificador)
         
         if simbolo is None:
             tamanioTS = ts.tamanio
-            temp = ts.generador.obtenerTemporal()
+            temp = Generador.obtenerTemporal()
                 
             SALIDA += "/* DECLARACION  VARIABLE */\n"
             SALIDA += valor.codigo
-            SALIDA += f"{temp} = SP + {tamanioTS};\n"
+            SALIDA += f"{temp} = {PUNTERO} + {tamanioTS};\n"
             SALIDA += f"Stack[(int){temp}] = {valor.temporal};\n"
                 
             simbolo = Simbolo()
@@ -65,18 +77,18 @@ class Asignacion(Instruccion):
                 return SALIDA
             
             else:
-                temp = ts.generador.obtenerTemporal()
+                temp = Generador.obtenerTemporal()
                 
                 SALIDA += "/* RE-DECLARACION  VARIABLE */\n"
                 SALIDA += valor.codigo
-                SALIDA += f"{temp} = SP + {simbolo.direccionRelativa};\n"
+                SALIDA += f"{temp} = {PUNTERO} + {simbolo.direccionRelativa};\n"
                 SALIDA += f"Stack[(int){temp}] = {valor.temporal};\n"
                     
                 simbolo = Simbolo()
                 simbolo.iniciarPrimitivo(self.identificador, self.tipo, self.valor, simbolo.direccionRelativa, self.mut)  
                 ts.add(self.identificador,simbolo,self.linea, self.columna)
                 
-                # ts.generador.agregarInstruccion(SALIDA) 
+                # Generador.agregarInstruccion(SALIDA) 
                 return SALIDA
                  
         

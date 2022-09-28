@@ -6,8 +6,9 @@ from AST.Instruccion.Statement import Statement
 from AST.misc.error import Error_
 from Entorno.Retorno import Tipos
 from AST.Instruccion.Instruccion import Instruccion
+from Generador import Generador
 
-class Funcion(Instruccion):
+class Funcion(Simbolo, Instruccion):
     
     def __init__(self, identificador: str, lista_param, instrucciones: Statement, tipo: Tipos, linea:int, columna: int ):
         self.identificador = identificador
@@ -16,103 +17,65 @@ class Funcion(Instruccion):
         self.linea = linea
         self.columna = columna
         self.instrucciones = instrucciones
-        self.publico = False
-        self.esCrearTabla = False
-        
-    def ejecutar(self, ts):
+        self.generada = False
+        self.entornoFuncion = None
+    
+    
+    def ejecutarFuncion(self, ts):            
         funcion = ts.obtenerFuncion(self.identificador)
         
         if funcion is None:
             ts.agregarFuncion(self.identificador, self)
         else:
-            raise Error_("Semantico", f'Funcion {self.identificador} ya ha sido declarada', ts.env, self.linea, self.columna)
+            Error_("Semantico", f'Funcion {self.identificador} ya ha sido declarada', ts.env, self.linea, self.columna)
         
 
-    def ejecutarParametros(self, entorno, expresiones, entorno_padre):
+    def ejecutarParametros(self, entorno, expresiones, entorno_padre, puntero):
+        
+        SALIDA = ""
         
         if len(self.lista_param) != len(expresiones):
-            raise Error_("Semantico", f'Cantidad de parametros incorrecto', "", self.linea, self.columna)
+            Error_("Semantico", f'Cantidad de parametros incorrecto', "", self.linea, self.columna)
         
         i = 0
-        for expresion in expresiones:
-            
-            valor_exp = expresion.getValor(entorno_padre)
-            tipo_exp = expresion.getTipo(entorno_padre)
-            
-            if self.lista_param[i].tipo.tipo != tipo_exp:
-                
-                raise Error_("Semantico", f'Tipo incorrecto en parametro {self.lista_param[i].identificador}', entorno.env, self.linea, self.columna)
-                
-            nuevo = Simbolo()
-            nuevo.iniciarPrimitivo(self.lista_param[i].identificador, self.lista_param[i].tipo, valor_exp, True)            
-            entorno.add(self.lista_param[i].identificador, nuevo, self.linea, self.columna)
-            i += 1
-        
-        
-            
-    def ejecutarFuncion(self, ts_local):
-        
-        if(self.esCrearTabla):
-            
-            base_datos = ts_local.anterior.anterior.env
-            tabla = ts_local.anterior.env
-            
-            instancia_base = ts_local.obtenerModulo(base_datos)
-            instancia_tabla = ts_local.obtenerModulo(tabla)
-            
-            if len(Program.lista_bases) == 0:
-                linea = instancia_base.linea
-                Program.lista_bases.append({"nombre_base":base_datos, "cantidad": 1, "linea":linea})
+        for i in range(len(expresiones)):
 
-            else:
-                for base in Program.lista_bases:
-                    
-                    if base_datos == base.get("nombre_base"):
-                        base["cantidad"] += 1
-                    
-                    else:
-                        linea = instancia_base.linea
-                        Program.lista_bases.append({"nombre_base":base_datos, "cantidad": 1, "linea":linea})
-
-            Program.lista_tablas.append({"nombre_base":base_datos, "nombre_tablas":tabla, "linea":instancia_tabla.linea})
             
-                
+            declaracion = self.lista_param[i]
+            expresion = expresiones[i].obtener3D(entorno_padre)
+            
+            if declaracion.tipo != expresion.tipo:
+                Error_("Semantico", f'Tipo incorrecto en parametro {self.lista_param[i].identificador}', entorno.env, self.linea, self.columna)
+            
+            declaracion.valorCompilado = expresion
+            declaracion.puntero_nuevo = puntero
+            declaracion.enFuncion = True
+            SALIDA += declaracion.ejecutar3D(entorno)
         
-        codigo = self.instrucciones.codigo
+        return SALIDA
+
+    
+    def ejecutar3D(self, ts):
+        SALIDA = ""
+        ETQ_RETURN = Generador.obtenerEtiqueta()
+        SALIDA += f'void {self.identificador}(){{ \n'
         
-        for ins in codigo:
+        SALIDA += self.instrucciones.ejecutar3D(ts)
+        
+        print(self.instrucciones.tipo, " --- ", self.tipo)
+        
+        if self.instrucciones.tipo != self.tipo:
+            Error_("Semantico", f'Tipo incorrecto en Return', ts.env, self.linea, self.columna)
             
-            if ins is None:
-                continue
+        
+        SALIDA = SALIDA.replace("RETORNO", ETQ_RETURN)
+        
+        SALIDA += f'{ETQ_RETURN}: \n'
+        SALIDA += "return;\n"
+        SALIDA += "}\n"
+        return SALIDA
             
-            try:
-                element = ins.ejecutar(ts_local)
-                
-                if element is not None:
-                    if element["tipo"] == "break":
-                        raise Error_("Semantico", f'No se puede ejecutar un Break fuera de un ciclo', ts_local.env, self.linea, self.columna)
-                    
-                    if element["tipo"] == "continue":
-                        raise Error_("Semantico", f'No se puede ejecutar un Continue fuera de un ciclo', ts_local.env, self.linea, self.columna)
-                    
-                    if element["tipo"] == "return":
-                        
-                        if self.tipo != Tipos.VOID:
-                            if element["exp"] is None:
-                                raise Error_("Semantico", f'La funcion {self.identificador} debe poseer un return', ts_local.env, self.linea, self.columna)
-                            
-                            valor_return = element["exp"].getValor(ts_local)
-                            tipo_return = element["exp"].getTipo(ts_local)
-                            
-                            if tipo_return != self.tipo:
-                                raise Error_("Semantico", f'Tipo de Return incorrecto', ts_local.env, self.linea, self.columna)
-
-                            return valor_return
-                        else:
-                            raise Error_("Semantico", f'La funcion {self.identificador} debe poseer un return tipo {ts_local.getTiposNombre(self.tipo)}', ts_local.env, self.linea, self.columna)
-
-                
-            except Exception as e:
-                print(e)
+    # def ejecutarFuncion(self, ts_local):
+    #     pass
         
     
