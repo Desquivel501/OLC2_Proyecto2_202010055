@@ -16,11 +16,13 @@ class Return(Instruccion):
     def ejecutar3D(self, ts):
         
         SALIDA = ""
+    
         
         if self.expresion is None:
             return "goto RETORNO; \n"
         
         valor = self.expresion.obtener3D(ts)
+        
         SALIDA += valor.codigo
         self.tipo = valor.tipo
         temp = Generador.obtenerTemporal()

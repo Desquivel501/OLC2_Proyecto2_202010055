@@ -26,9 +26,24 @@ class Retorno:
         self.tipo = tipo
         self.etiquetaV = ""
         self.etiquetaF = ""
+        self.valor = None
         
     def iniciarRetorno(self, codigo, etiqueta, temporal, tipo):
         self.codigo = codigo
         self.temporal = temporal
         self.etiqueta = etiqueta
         self.tipo = tipo
+    
+    
+    def iniciarRetornoInstancia(self, codigo, temporal, tipo, OBJETO):
+        self.codigo = codigo
+        self.temporal = temporal
+        self.tipo = tipo
+        self.valor = OBJETO
+    
+    
+    def iniciarRetornoArreglo(self, codigo, temporal, tipo, ARREGLO):
+        self.codigo = codigo
+        self.temporal = temporal
+        self.tipo = tipo
+        self.valor = ARREGLO

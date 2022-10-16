@@ -30,6 +30,7 @@ class TablaSimbolos:
         self.ptr = 0
 
     def add(self, id: str, simbolo: Simbolo, linea, columna):
+                
         self.tabla[id] = simbolo
         
         # data = self.getTipos(simbolo)

@@ -24,6 +24,8 @@ class Asignacion(Instruccion):
         self.puntero_nuevo = ""
         self.enFuncion = False
         
+        
+        
     def ejecutar3D(self, ts: TablaSimbolos):
 
         SALIDA = ""
@@ -35,6 +37,8 @@ class Asignacion(Instruccion):
             valor = self.valorCompilado
             
         PUNTERO = "SP"
+        SEGMENTO = "Stack"
+        
         if self.enFuncion:
             PUNTERO = self.puntero_nuevo
         
@@ -56,7 +60,7 @@ class Asignacion(Instruccion):
             SALIDA += "/* DECLARACION  VARIABLE */\n"
             SALIDA += valor.codigo
             SALIDA += f"{temp} = {PUNTERO} + {tamanioTS};\n"
-            SALIDA += f"Stack[(int){temp}] = {valor.temporal};\n"
+            SALIDA += f"{SEGMENTO}[(int){temp}] = {valor.temporal};\n"
                 
             simbolo = Simbolo()
             simbolo.iniciarPrimitivo(self.identificador, self.tipo, self.valor, tamanioTS, self.mut)  
@@ -70,11 +74,11 @@ class Asignacion(Instruccion):
             
             if  simbolo.tipo != valor.tipo:
                 Error_('Semantico', f'El valor de la variable no coincide con su tipo: {simbolo.tipo} -> {valor.tipo}', ts.env, self.linea, self.columna)     
-                return SALIDA
+                return ""
             
-            elif simbolo.mut is False:
-                Error_("Semantico", "No se puede cambiar el valor de una constante", ts.env, self.linea, self.columna)    
-                return SALIDA
+            # elif simbolo.mut is False:
+            #     Error_("Semantico", "No se puede cambiar el valor de una constante", ts.env, self.linea, self.columna)    
+            #     return SALIDA
             
             else:
                 temp = Generador.obtenerTemporal()
@@ -87,7 +91,7 @@ class Asignacion(Instruccion):
                 simbolo = Simbolo()
                 simbolo.iniciarPrimitivo(self.identificador, self.tipo, self.valor, simbolo.direccionRelativa, self.mut)  
                 ts.add(self.identificador,simbolo,self.linea, self.columna)
-                
+                # ts.tamanio += 1
                 # Generador.agregarInstruccion(SALIDA) 
                 return SALIDA
                  

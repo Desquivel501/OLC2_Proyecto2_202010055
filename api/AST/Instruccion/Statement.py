@@ -20,9 +20,9 @@ class Statement(Instruccion):
             SALIDA += ins.ejecutar3D(ts)
             
             if isinstance(ins, Return):
-                if self.tipo == Tipos.VOID:
+                if self.tipo == Tipos.VOID:                    
                     self.tipo = ins.tipo
-
+        
         return SALIDA
 
     

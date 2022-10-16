@@ -122,6 +122,7 @@ def p_instruccion(p):
                 | vec_insert PUNTOCOMA
                 | vec_remove PUNTOCOMA
                 | acceso_mod_exp PUNTOCOMA
+                | declaracion_struct PUNTOCOMA
     """
     p[0] = p[1]
     
@@ -855,6 +856,7 @@ def p_arreglo_mut(p):
     """
     declaracion_arreglo : LET MUT ID D_PUNTO dimensiones_arreglo IGUAL datos_arreglo
     """
+    
     lista = p[5].lista
     tipo = p[5].tipo
     p[0] = CrearArreglo(p[3],lista,tipo,p[7],True,p.lineno(1),p.lexpos(1) )
@@ -867,9 +869,9 @@ def p_arreglo_no_tipo(p):
                         | LET ID IGUAL datos_arreglo
     """
     if len(p) == 6:
-        p[0] = CrearArreglo(p[3],None,None,p[5],True,p.lineno(1),p.lexpos(1) )
+        p[0] = CrearArreglo(p[3],None,None,p[5],True,p.lineno(1),p.lexpos(1))
     else:   
-        p[0] = CrearArreglo(p[2],None,None,p[4],True,p.lineno(1),p.lexpos(1) )
+        p[0] = CrearArreglo(p[2],None,None,p[4],True,p.lineno(1),p.lexpos(1))
 
 
 def p_dimension_arreglo(p):
@@ -881,6 +883,7 @@ def p_dimension_arreglo(p):
     if p.slice[2].type == "tipo":
         p[0] = Dimension(p[2], p[4])
     else:
+        print("------------------------------------")
         p[2].lista.append(p[4])
         p[0] = p[2]
 
@@ -890,6 +893,7 @@ def p_datos_arreglo(p):
     datos_arreglo : COR_I exp_list COR_D
     """
     p[0] = ArrayData(p[2],p.lineno(1),p.lexpos(1) )
+    
 
 
 def p_datos_arreglo_intervalo(p):
@@ -1274,19 +1278,26 @@ def p_expresion_sentencia(p):
     p[0] = p[1]
 
 
+# def p_otras_expresiones(p):
+#     """
+#     expresion : acceso_struct_exp
+#               | instancia
+#     """
+#     p[0] = p[1]
+
+
 def p_otras_expresiones(p):
     """
     expresion : acceso_struct_exp
-              | instancia
     """
     p[0] = p[1]
 
 
 def p_dato_arreglo_exp(p):
     """
-    expresion : datos_arreglo
-              | acceso_arreglo
+    expresion :  acceso_arreglo
               | chars
+              | datos_arreglo
     """
     p[0] = p[1]
     

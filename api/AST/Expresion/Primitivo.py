@@ -29,7 +29,7 @@ class Primitivo(Expresion):
            
             for char in self.valor:
                valor = ord(char)
-               SALIDA += f'Heap[HP] = {valor}; \n'
+               SALIDA += f'Heap[HP] = {valor}; /*{char}*/\n'
                SALIDA += f'HP = HP + 1; \n'
             
             SALIDA += f'Heap[HP] = 0; \n'

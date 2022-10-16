@@ -21,6 +21,8 @@ class Print_(Instruccion):
         salida = ""
         valor = self.valor.obtener3D(ts)
         
+        print(valor.tipo)
+        
         #----------------------------------------------------------------INT
     
         if valor.tipo == Tipos.INT:
@@ -80,7 +82,7 @@ class Print_(Instruccion):
             salida += f'{etq_true}:\n'
             salida += f'    printf("\\n");\n'
             # Generador.agregarInstruccion(salida) 
-            
+        
         return salida
 
 

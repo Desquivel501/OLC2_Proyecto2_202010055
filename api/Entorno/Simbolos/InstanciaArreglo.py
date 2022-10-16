@@ -14,6 +14,7 @@ class InstanciaArreglo(Expresion, Simbolo):
         self.tipo = tipo
         self.identificador = None
         self.mut = False
+        self.direccionRelativa = 0
 
     def getTipo(self, ts):
         return self.tipo

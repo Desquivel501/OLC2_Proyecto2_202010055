@@ -23,7 +23,6 @@ class Funcion(Simbolo, Instruccion):
     
     def ejecutarFuncion(self, ts):            
         funcion = ts.obtenerFuncion(self.identificador)
-        
         if funcion is None:
             ts.agregarFuncion(self.identificador, self)
         else:
@@ -62,12 +61,11 @@ class Funcion(Simbolo, Instruccion):
         
         SALIDA += self.instrucciones.ejecutar3D(ts)
         
-        print(self.instrucciones.tipo, " --- ", self.tipo)
+        # print(self.instrucciones.tipo, " --- ", self.tipo)
         
-        if self.instrucciones.tipo != self.tipo:
-            Error_("Semantico", f'Tipo incorrecto en Return', ts.env, self.linea, self.columna)
+        # if self.instrucciones.tipo != self.tipo:
+        #     Error_("Semantico", f'Tipo incorrecto en Return', ts.env, self.linea, self.columna)
             
-        
         SALIDA = SALIDA.replace("RETORNO", ETQ_RETURN)
         
         SALIDA += f'{ETQ_RETURN}: \n'
