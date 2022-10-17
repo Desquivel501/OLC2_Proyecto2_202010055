@@ -27,6 +27,7 @@ class Retorno:
         self.etiquetaV = ""
         self.etiquetaF = ""
         self.valor = None
+        self.tipo_interno = None
         
     def iniciarRetorno(self, codigo, etiqueta, temporal, tipo):
         self.codigo = codigo

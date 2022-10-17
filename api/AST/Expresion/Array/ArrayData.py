@@ -18,6 +18,7 @@ class ArrayData(Expresion):
         self.linea = linea
         self.columna = columna
         self.tipo = Tipos.NULL
+        self.tipo_interno = Tipos.NULL
     
     def obtener3D(self, ts) -> Retorno:
         SALIDA = ""
@@ -35,6 +36,8 @@ class ArrayData(Expresion):
             return RETORNO
         
         self.listaDimensiones.append(len(expresiones_compiladas))
+        
+        # print("***********", self.tipo_interno)
         
         SALIDA += f'HP = HP + {len(expresiones_compiladas) + 1};\n'
         SALIDA += f'Heap[(int){temp1}] = {len(expresiones_compiladas)}; /*Tamaño del arreglo*/ \n'
@@ -56,8 +59,10 @@ class ArrayData(Expresion):
             
             i += 1
         
-        instancia = InstanciaArreglo(self.tipo, self.listaDimensiones, None)
+        instancia = InstanciaArreglo(Tipos.ARRAY_DATA, self.listaDimensiones, None)
+        instancia.tipo_interno = self.tipo_interno
         
+        RETORNO.tipo_interno = self.tipo_interno
         RETORNO.iniciarRetornoArreglo(SALIDA, temp1, Tipos.ARRAY_DATA, instancia)
         
         return RETORNO 
@@ -70,9 +75,18 @@ class ArrayData(Expresion):
         for exp in self.listaExpresiones:
             
             res = exp.obtener3D(ts)
+            # self.tipo_interno = res.tipo_interno
+            
+            # print(res.tipo)
             
             if i == 0:
                 self.tipo = res.tipo
+                
+                if self.tipo is Tipos.ARRAY_DATA:
+                    self.tipo_interno = res.tipo_interno
+                else:
+                    self.tipo_interno = res.tipo
+                    
             else:
                 if self.tipo != res.tipo:
                     Error_('Semantico', f'Tipos en arreglo no coinciden', ts.env, self.linea, self.columna)    

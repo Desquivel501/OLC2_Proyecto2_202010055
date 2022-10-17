@@ -1,4 +1,5 @@
 
+from tkinter.messagebox import RETRY
 from AST.Instruccion.Instruccion import Instruccion
 from Entorno.Simbolos.Funcion import Funcion
 from Entorno.Retorno import Tipos
@@ -55,12 +56,21 @@ class AccesoArreglo(Expresion):
     
         RESULTADO = self.acceso(ts, dimensiones_compiladas, temp2)
         
+        RESULTADO.tipo = instancia.tipo_interno
+    
+        if( len(instancia.dimensiones) > len(self.listaExpresiones) ):
+            RESULTADO.tipo = Tipos.ARRAY_DATA
+            
         SALIDA += RESULTADO.codigo
         SALIDA = SALIDA.replace("SALIR_ARREGLO", etiqueta)
         SALIDA += f'{etiqueta}:\n'
         
         
         RETORNO = Retorno()
+        
+        # print(instancia.tipo)
+        
+        RETORNO.tipo_interno = instancia.tipo_interno
         RETORNO.iniciarRetorno(SALIDA, "", RESULTADO.temporal, RESULTADO.tipo)
         
         return RETORNO
@@ -101,8 +111,8 @@ class AccesoArreglo(Expresion):
         if(len(lista_expresiones) > 0):
             res = self.acceso(ts, lista_expresiones, temp4)
             SALIDA += res.codigo
-            RETORNO.iniciarRetorno(SALIDA, "", res.temporal, expresion.tipo)
+            RETORNO.iniciarRetorno(SALIDA, "", res.temporal, None)
         else:
-            RETORNO.iniciarRetorno(SALIDA, "", temp4, expresion.tipo)
+            RETORNO.iniciarRetorno(SALIDA, "", temp4, None)
         
         return RETORNO

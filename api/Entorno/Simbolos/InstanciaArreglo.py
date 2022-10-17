@@ -5,6 +5,7 @@ from AST.misc.error import Error_
 from AST.Instruccion.Instruccion import Instruccion
 
 from AST.Expresion.Expresion import Expresion
+from Entorno.Retorno import Tipos
 
 class InstanciaArreglo(Expresion, Simbolo):
 
@@ -15,6 +16,7 @@ class InstanciaArreglo(Expresion, Simbolo):
         self.identificador = None
         self.mut = False
         self.direccionRelativa = 0
+        self.tipo_interno = Tipos.NULL
 
     def getTipo(self, ts):
         return self.tipo
