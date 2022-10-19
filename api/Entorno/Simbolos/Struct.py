@@ -12,6 +12,9 @@ class Struct(Instruccion):
         self.publico = False
         
     def ejecutar(self, ts):
+        
+        print("---------------------------------------------------------")
+        
         struct = ts.obtenerStruct(self.identificador)
         if struct is not None:
             raise Error_("Semantico", f'Struct {self.identificador} ya ha sido declarado', ts.env, self.linea, self.columna)

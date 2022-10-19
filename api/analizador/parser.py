@@ -104,6 +104,7 @@ def p_instrucciones_instruccion(p):
 def p_instruccion(p):
     """
     instruccion : declaracion_arreglo PUNTOCOMA
+                | declaracion_struct PUNTOCOMA
                 | asignacion PUNTOCOMA
                 | if
                 | match
@@ -122,7 +123,7 @@ def p_instruccion(p):
                 | vec_insert PUNTOCOMA
                 | vec_remove PUNTOCOMA
                 | acceso_mod_exp PUNTOCOMA
-                | declaracion_struct PUNTOCOMA
+                
     """
     p[0] = p[1]
     
@@ -712,7 +713,8 @@ def p_tipo_funcion(p):
         p[0] = Tipos.FLOAT
     if p[1] == "bool":
         p[0] = Tipos.BOOLEAN
-    if p[1] == "&str":
+    if p[1] == "&":
+        print("***")
         p[0] = Tipos.STR
     if p[1] == "String":
         p[0] = Tipos.STRING
@@ -1278,12 +1280,12 @@ def p_expresion_sentencia(p):
     p[0] = p[1]
 
 
-# def p_otras_expresiones(p):
-#     """
-#     expresion : acceso_struct_exp
-#               | instancia
-#     """
-#     p[0] = p[1]
+def p_otras_expresiones(p):
+    """
+    expresion : acceso_struct_exp
+              | instancia
+    """
+    p[0] = p[1]
 
 
 def p_otras_expresiones(p):

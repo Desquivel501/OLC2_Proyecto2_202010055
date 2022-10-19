@@ -10,6 +10,7 @@ from Generador import Generador
 from Analizador.parser import parser
 from Entorno.Simbolos.Funcion import Funcion
 from AST.misc.error import Error_
+from Entorno.Simbolos.Struct import Struct
 
 app = Flask(__name__)
 CORS(app)
@@ -71,6 +72,9 @@ def interpretar():
                     
                     if isinstance(instruccion, Funcion):
                         instruccion.ejecutarFuncion(ts)
+                    
+                    if isinstance(instruccion, Struct):
+                        instruccion.ejecutar(ts)
             
             
                 main = ts.obtenerFuncion("main")

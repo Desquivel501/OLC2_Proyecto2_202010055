@@ -1,10 +1,7 @@
 from Entorno.Simbolos.Modulo import Modulo
 
 from Entorno.Retorno import Tipos
-from Entorno.Simbolos.InstanciaVector import InstanciaVector
 from Entorno.Simbolos.InstanciaArreglo import InstanciaArreglo
-from Entorno.Simbolos.InstanciaStruct import InstanciaStruct
-from Entorno.Simbolos.Struct import Struct
 from Entorno.Simbolos.Funcion import Funcion
 from AST.misc.Program import Program
 from Entorno.Simbolo import Simbolo
@@ -78,7 +75,7 @@ class TablaSimbolos:
 
      #-------------------------------------------STRUCTS-----------------------------------------------
 
-    def agregarStruct(self, id: str,  struct: Struct):
+    def agregarStruct(self, id: str,  struct):
         self.structs[id] = struct
 
 
@@ -100,7 +97,7 @@ class TablaSimbolos:
             ts = ts.anterior
         return None
 
-    def agregarIntancia(self, id: str,  struct: InstanciaStruct):
+    def agregarIntancia(self, id: str,  struct):
         self.instancias_structs[id] = struct
 
 
@@ -121,7 +118,7 @@ class TablaSimbolos:
 
         #-----------------------------------------VECTORES-----------------------------------------------
 
-    def agregarVector(self, id: str,  vector: InstanciaVector):
+    def agregarVector(self, id: str,  vector):
         self.vectores[id] = vector
 
 

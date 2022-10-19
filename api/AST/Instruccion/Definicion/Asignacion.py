@@ -23,6 +23,7 @@ class Asignacion(Instruccion):
         
         self.puntero_nuevo = ""
         self.enFuncion = False
+        self.enStruct = False
         
         
         
@@ -41,6 +42,10 @@ class Asignacion(Instruccion):
         
         if self.enFuncion:
             PUNTERO = self.puntero_nuevo
+        
+        if self.enStruct:
+            PUNTERO = self.puntero_nuevo
+            SEGMENTO = "Heap"
         
 
         if self.tipo is not None:
