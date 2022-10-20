@@ -14,4 +14,6 @@ class ExpCase(Expresion):
 
 
     def obtener3D(self, ts) -> Retorno:
-       pass
+       return self.codigo.obtener3D(ts)
+
+    

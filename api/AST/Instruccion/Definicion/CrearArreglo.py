@@ -18,12 +18,29 @@ class CrearArreglo(Instruccion):
         self.expresion = expresion
         self.mut = mut
         
+        self.enFuncion = False
+        self.puntero_nuevo = ""
+        self.valorCompilado = None
+        self.esReferencia = False
+        
         self.declarar_en_instancia = False
          
         
     def ejecutar3D(self, ts: TablaSimbolos):
         
-        valor = self.expresion.obtener3D(ts)
+        # valor = self.expresion.obtener3D(ts)
+        
+        valor = None
+        if self.expresion is not None:
+            valor = self.expresion.obtener3D(ts)
+        elif self.valorCompilado is not None:
+            valor = self.valorCompilado
+            
+        PUNTERO = "SP"
+        SEGMENTO = "Stack"
+        
+        if self.enFuncion:
+            PUNTERO = self.puntero_nuevo
         
         if (valor.tipo != Tipos.ARRAY_DATA):
             
@@ -39,19 +56,25 @@ class CrearArreglo(Instruccion):
         #         Error_('Semantico', f'Tipo incorrecto en definicion de arreglo', ts.env, self.linea, self.columna)   
         #         return ""
             
+        # if self.esReferencia:
+        #     temp1 = Generador.obtenerTemporal()
+        # else:
+        #     temp1 = Generador.obtenerTemporal()
         
         temp1 = Generador.obtenerTemporal()
         
         SALIDA = f"/* Declaracion Arreglo {self.id_instancia}*/ \n"
         SALIDA += valor.codigo
-        SALIDA += f'{temp1} = SP + {ts.tamanio}; \n'
-        SALIDA += f'Stack[(int){temp1}] = {valor.temporal}; \n'
+        SALIDA += f'{temp1} = {PUNTERO} + {ts.tamanio}; \n'
+        SALIDA += f'{SEGMENTO}[(int){temp1}] = {valor.temporal}; \n'
         
         
         instancia = ts.buscar(self.id_instancia)
         if instancia is not None:
             Error_("Semantico", f'Ya se ha declarado el simbolo \'{self.id_instancia}\'', ts.env, self.linea, self.columna)
             return ""
+        
+        # print(valor.valor)
         
         nueva_instancia: InstanciaArreglo = valor.valor
         nueva_instancia.identificador = self.id_instancia

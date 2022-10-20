@@ -12,4 +12,4 @@ class Else(Expresion, Instruccion):
         
         
     def obtener3D(self, ts) -> Retorno:
-       pass
+       return self.expresion.obtener3D(ts)

@@ -7,6 +7,7 @@ from AST.Expresion.Expresion import Expresion
 from Entorno.TablaSimbolos import TablaSimbolos
 
 from AST.misc.error import Error_
+from Generador import Generador
 
 
 class ToString(Expresion):
@@ -17,4 +18,13 @@ class ToString(Expresion):
         
         
     def obtener3D(self, ts) -> Retorno:
-       pass
+        
+       valor = self.exp.obtener3D(ts)
+       temp = Generador.obtenerTemporal()
+       
+       SALIDA = "/* TO STRING */\n"
+       SALIDA += valor.codigo
+       RETORNO = Retorno()
+       RETORNO.iniciarRetorno(SALIDA, "", valor.temporal, Tipos.STRING)
+       
+       return RETORNO

@@ -5,6 +5,7 @@ from AST.Expresion.Expresion import Expresion
 from Entorno.Retorno import Tipos
 from AST.misc.error import Error_
 from Entorno.Retorno import Retorno, Tipos
+from Generador import Generador
 
 
 
@@ -16,4 +17,16 @@ class Length(Expresion):
         
         
     def obtener3D(self, ts) -> Retorno:
-       pass
+      
+       valor = self.expresion.obtener3D(ts)
+       temp = Generador.obtenerTemporal()
+       
+       SALIDA = "/* LENGTH */\n"
+       SALIDA += valor.codigo
+       SALIDA += f'{temp} = Heap[(int) {valor.temporal}];\n'
+       
+       RETORNO = Retorno()
+       RETORNO.iniciarRetorno(SALIDA, "", temp, Tipos.INT)
+       
+       return RETORNO
+       

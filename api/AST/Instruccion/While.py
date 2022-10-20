@@ -43,8 +43,8 @@ class While(Instruccion):
         DISPLAY = Display_obj()
         DISPLAY.inicio = ETQ_INICIO
         DISPLAY.salida = ETQ_SALIDA
-        ts.ptr += 1
-        ts.Display[ts.ptr] = DISPLAY
+        ts_local.ptr += 1
+        ts_local.Display[ts_local.ptr] = DISPLAY
         
         
         SALIDA += "/* INSTRUCCION WHILE */\n"

@@ -1,6 +1,8 @@
 from AST.misc.Program import Program
 from AST.Instruccion.Instruccion import Instruccion
 from Entorno.Retorno import Retorno, Tipos
+from Entorno.TablaSimbolos import TablaSimbolos
+from Generador import Generador
 
 
 class Case(Instruccion):
@@ -14,5 +16,7 @@ class Case(Instruccion):
 
     def ejecutar3D(self, ts) -> Retorno:
         pass
+        
+        
     
     

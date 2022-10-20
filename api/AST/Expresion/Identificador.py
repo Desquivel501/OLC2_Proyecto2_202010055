@@ -42,8 +42,9 @@ class Identificador(Expresion):
                 RETORNO.etiquetaV = self.etiquetaVerdadera
                 RETORNO.etiquetaF = self.etiquetaFalsa
             
-            if isinstance(simbolo,InstanciaArreglo):
+            if isinstance(simbolo, InstanciaArreglo):
                 RETORNO.tipo_interno = simbolo.tipo_interno
+                RETORNO.valor = simbolo
             
             RETORNO.iniciarRetorno(SALIDA, "", temp2, simbolo.tipo)
             

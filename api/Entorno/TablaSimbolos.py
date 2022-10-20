@@ -1,8 +1,8 @@
-from Entorno.Simbolos.Modulo import Modulo
+# from Entorno.Simbolos.Modulo import Modulo
 
 from Entorno.Retorno import Tipos
 from Entorno.Simbolos.InstanciaArreglo import InstanciaArreglo
-from Entorno.Simbolos.Funcion import Funcion
+# from Entorno.Simbolos.Funcion import Funcion
 from AST.misc.Program import Program
 from Entorno.Simbolo import Simbolo
 from Generador import Generador
@@ -60,7 +60,7 @@ class TablaSimbolos:
 
     #-------------------------------------------FUNCIONES-----------------------------------------------
 
-    def agregarFuncion(self, id: str,  func: Funcion):
+    def agregarFuncion(self, id: str,  func):
         self.funciones[id] = func
 
 
@@ -134,7 +134,7 @@ class TablaSimbolos:
 
 #-------------------------------------------MODULOS-----------------------------------------------
 
-    def agregarModulo(self, id: str,  mod: Modulo):
+    def agregarModulo(self, id: str,  mod):
         self.modulos[id] = mod
 
 

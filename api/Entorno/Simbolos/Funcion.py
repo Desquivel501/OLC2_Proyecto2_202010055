@@ -7,6 +7,7 @@ from AST.misc.error import Error_
 from Entorno.Retorno import Tipos
 from AST.Instruccion.Instruccion import Instruccion
 from Generador import Generador
+from AST.Instruccion.Definicion.CrearArreglo import CrearArreglo
 
 class Funcion(Simbolo, Instruccion):
     
@@ -43,13 +44,31 @@ class Funcion(Simbolo, Instruccion):
             declaracion = self.lista_param[i]
             expresion = expresiones[i].obtener3D(entorno_padre)
             
+            # print(expresion)
+            
+            print(declaracion.tipo, "---", expresion.tipo)
+            
             if declaracion.tipo != expresion.tipo:
                 Error_("Semantico", f'Tipo incorrecto en parametro {self.lista_param[i].identificador}', entorno.env, self.linea, self.columna)
+                continue
             
-            declaracion.valorCompilado = expresion
-            declaracion.puntero_nuevo = puntero
-            declaracion.enFuncion = True
-            SALIDA += declaracion.ejecutar3D(entorno)
+            # if()
+            
+            
+            if (expresion.tipo is Tipos.ARRAY_DATA):
+                
+                nuevo_arreglo = CrearArreglo(declaracion.identificador,None,None,None, True, self.linea, self.columna)
+                nuevo_arreglo.valorCompilado = expresion
+                nuevo_arreglo.puntero_nuevo = puntero
+                nuevo_arreglo.enFuncion = True
+                nuevo_arreglo.esReferencia = declaracion.referencia
+                SALIDA += nuevo_arreglo.ejecutar3D(entorno)
+            
+            else:
+                declaracion.valorCompilado = expresion
+                declaracion.puntero_nuevo = puntero
+                declaracion.enFuncion = True
+                SALIDA += declaracion.ejecutar3D(entorno)
         
         return SALIDA
 

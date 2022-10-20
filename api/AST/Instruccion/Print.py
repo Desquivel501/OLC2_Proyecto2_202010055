@@ -41,7 +41,7 @@ class Print_(Instruccion):
         #----------------------------------------------------------------STRING O STR
         if valor.tipo in [Tipos.STRING, Tipos.STR]:
             salida += self.printString(salida, valor)
-            salida += f'    printf("\\n");\n'
+            # salida += f'    printf("\\n");\n'
             # Generador.agregarInstruccion(salida) 
 
         #----------------------------------------------------------------BOOLEAN    

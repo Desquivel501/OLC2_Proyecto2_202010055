@@ -92,12 +92,7 @@ class Asignacion(Instruccion):
                 SALIDA += valor.codigo
                 SALIDA += f"{temp} = {PUNTERO} + {simbolo.direccionRelativa};\n"
                 SALIDA += f"Stack[(int){temp}] = {valor.temporal};\n"
-                    
-                simbolo = Simbolo()
-                simbolo.iniciarPrimitivo(self.identificador, self.tipo, self.valor, simbolo.direccionRelativa, self.mut)  
-                ts.add(self.identificador,simbolo,self.linea, self.columna)
-                # ts.tamanio += 1
-                # Generador.agregarInstruccion(SALIDA) 
+                simbolo.valor = self.valor
                 return SALIDA
                  
         

@@ -428,7 +428,7 @@ def p_expresion_if_else(p):
     if len(p) == 8:
         p[0] = ExpIf(p[2],p[4], p[5], p[7], p.lineno(1),p.lexpos(0) )
     else:
-        p[0] = ExpIf(p[2],None, p[4],p[6],p.lineno(1),p.lexpos(0) )
+        p[0] = ExpIf(p[2],[], p[4],p[6],p.lineno(1),p.lexpos(0) )
 
 
 def p_expresion_else(p):
@@ -440,7 +440,7 @@ def p_expresion_else(p):
     if len(p) == 6:
         p[0] = Else(p[3], p[4])
     elif len(p) == 5:
-        p[0] = Else(None, p[3])
+        p[0] = Else([], p[3])
     else:
         p[0] = p[2]
 
@@ -703,9 +703,9 @@ def p_tipo_funcion(p):
         p[0] = Tipos.VECTOR_DATA
         
     elif p.slice[1].type == 'dimensiones_un_tipo':
-        p[0] = p[1]
+        p[0] = Tipos.ARRAY_DATA
     elif p.slice[1].type == 'dimensiones_arreglo_tipo':
-        p[0] = p[1]
+        p[0] = Tipos.ARRAY_DATA
         
     if  p[1] == "i64":
         p[0] = Tipos.INT

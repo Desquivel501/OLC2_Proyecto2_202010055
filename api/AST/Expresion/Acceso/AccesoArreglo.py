@@ -28,6 +28,8 @@ class AccesoArreglo(Expresion):
             Error_('Semantico', f'Arreglo "{self.id_instancia}" no ha sido declarado', ts.env, self.linea, self.columna)  
             return Retorno()
         
+        # print(instancia.tipo)
+        
         if not isinstance(instancia, InstanciaArreglo):
             Error_('Semantico', f'Simbolo "{self.id_instancia}" no es un arreglo', ts.env, self.linea, self.columna)  
             return Retorno()
