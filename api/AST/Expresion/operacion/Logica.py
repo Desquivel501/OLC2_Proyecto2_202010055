@@ -20,15 +20,41 @@ class Logica(Operacion):
 
         if self.operador == Operador.NOT:
             
+            
             self.left.etiquetaVerdadera = self.etiquetaFalsa
             self.left.etiquetaFalsa = self.etiquetaVerdadera
             
+            
             valor_left = self.left.obtener3D(ts)
             
-            RETORNO.codigo += valor_left.codigo
-            RETORNO.etiquetaV = self.etiquetaVerdadera
-            RETORNO.etiquetaF = self.etiquetaFalsa
-            RETORNO.tipo = Tipos.BOOLEAN
+            
+            if(valor_left.temporal != ""):
+                # print(valor_left.temporal)
+                etq_1 = Generador.obtenerEtiqueta()
+                etq_2 = Generador.obtenerEtiqueta()
+                
+                RETORNO.codigo += f"/* OPERACION NOT */\n"
+                
+                RETORNO.codigo += valor_left.codigo
+                RETORNO.codigo += f"if({valor_left.temporal} == 1) goto {etq_1};\n"
+                RETORNO.codigo += f"{valor_left.temporal} = 1;\n"
+                RETORNO.codigo += f"goto {etq_2};\n"
+                
+                RETORNO.codigo += f"{etq_1}:\n"
+                RETORNO.codigo += f"{valor_left.temporal} = 0;\n"
+                RETORNO.codigo += f"{etq_2}:\n"
+                
+                RETORNO.etiquetaV = self.etiquetaVerdadera
+                RETORNO.etiquetaF = self.etiquetaFalsa
+                RETORNO.tipo = Tipos.BOOLEAN
+                RETORNO.temporal = valor_left.temporal
+                
+            else:
+
+                RETORNO.codigo += valor_left.codigo
+                RETORNO.etiquetaV = self.etiquetaVerdadera
+                RETORNO.etiquetaF = self.etiquetaFalsa
+                RETORNO.tipo = Tipos.BOOLEAN
             return RETORNO
 
 

@@ -1,3 +1,4 @@
+from ast import Return
 from cmath import sqrt
 from Entorno.Retorno import Retorno, Tipos
 from AST.Expresion.Expresion import Expresion
@@ -82,12 +83,23 @@ class Aritmetica(Operacion):
         #     return valor_left + valor_right
          
         
-        if valor_left.tipo not in [Tipos.INT, Tipos.FLOAT] and valor_right.tipo not in [Tipos.INT, Tipos.FLOAT]:
-            Error_("Semantico",f'No se puede realizar una operacion entre {Tipos(valor_left.tipo).name} y {Tipos(valor_right.tipo).name}',ts.env, self.linea, self.columna)
+        # if valor_left.tipo not in [Tipos.INT, Tipos.FLOAT] and valor_right.tipo not in [Tipos.INT, Tipos.FLOAT]:
+        #     Error_("Semantico",f'No se puede realizar una operacion entre {Tipos(valor_left.tipo).name} y {Tipos(valor_right.tipo).name}',ts.env, self.linea, self.columna)
         
+        
+        # if self.operador == Operador.SUMA and tipo_left in [Tipos.STRING, Tipos.STR] and tipo_right in [Tipos.STR, Tipos.STRING] :
+        #     self.tipo = tipo_left;
+        #     return valor_left + valor_right
         
         
         if self.operador == Operador.SUMA:
+            
+            if valor_left.tipo in [Tipos.STRING, Tipos.STR] and valor_right.tipo in [Tipos.STRING, Tipos.STR]:
+
+                return self.concatenar(ts, valor_left, valor_right)
+                
+            
+            
             if valor_left.tipo == valor_right.tipo:
                 salida += valor_left.codigo
                 salida += valor_right.codigo
@@ -95,9 +107,18 @@ class Aritmetica(Operacion):
                 salida += f'{temp} = {valor_left.temporal} + {valor_right.temporal};\n'
                 retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
                 return retorno
+
+            # elif valor.
+            
             else:
                 Error_("Semantico",f'No se puede realizar una suma entre {Tipos(valor_left.tipo).name} y {Tipos(valor_right.tipo).name}',ts.env, self.linea, self.columna)
-                
+                return Retorno()
+        
+        
+        if valor_left.tipo not in [Tipos.INT, Tipos.FLOAT] or valor_right.tipo not in [Tipos.INT, Tipos.FLOAT]:
+            Error_("Semantico",f'No se puede realizar una suma entre {Tipos(valor_left.tipo).name} y {Tipos(valor_right.tipo).name}',ts.env, self.linea, self.columna)
+            return Retorno()
+             
                 
         if self.operador == Operador.RESTA:
             if valor_left.tipo == valor_right.tipo:
@@ -109,6 +130,7 @@ class Aritmetica(Operacion):
                 return retorno
             else:
                 Error_("Semantico",f'No se puede realizar una resta entre {Tipos(valor_left.tipo).name} y {Tipos(valor_right.tipo).name}',ts.env, self.linea, self.columna)
+                return Retorno()
                 
         if self.operador == Operador.MULTI:
             if valor_left.tipo == valor_right.tipo:
@@ -120,6 +142,7 @@ class Aritmetica(Operacion):
                 return retorno
             else:
                 Error_("Semantico",f'No se puede realizar una multiplicacion entre {Tipos(valor_left.tipo).name} y {Tipos(valor_right.tipo).name}',ts.env, self.linea, self.columna)
+                return Retorno()
                 
         if self.operador == Operador.DIV:
             if valor_right == 0:
@@ -133,17 +156,19 @@ class Aritmetica(Operacion):
                 return retorno
             else:
                 Error_("Semantico",f'No se puede realizar una division entre {Tipos(valor_left.tipo).name} y {Tipos(valor_right.tipo).name}',ts.env, self.linea, self.columna)
+                return Retorno()
         
         if self.operador == Operador.MODULO:
             if valor_left.tipo == valor_right.tipo:
                 salida += valor_left.codigo
                 salida += valor_right.codigo
                 temp = Generador.obtenerTemporal()
-                salida += f'{temp} = {valor_left.temporal} % {valor_right.temporal};\n'
+                salida += f'{temp} = (int){valor_left.temporal} % (int){valor_right.temporal};\n'
                 retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
                 return retorno
             else:
                 Error_("Semantico",f'No se puede calcular el modulo entre {Tipos(valor_left.tipo).name} y {Tipos(valor_right.tipo).name}',ts.env, self.linea, self.columna)
+                return Retorno()
              
                 
         
@@ -153,17 +178,14 @@ class Aritmetica(Operacion):
  
                 error = Generador.obtenerTemporal()
                 inicio = Generador.obtenerEtiqueta()
-                fin = Generador.obtenerEtiqueta()
-                
+                fin = Generador.obtenerEtiqueta()        
                 
                 cond = Generador.obtenerTemporal()
                 temp1 = Generador.obtenerTemporal()
                 temp2 = Generador.obtenerTemporal()
                 temp3 = Generador.obtenerTemporal()
                 res = Generador.obtenerTemporal()
-                
-                
-                
+
                 salida += valor_left.codigo
                 
                 salida += "/* RAIZ CUADRADA */\n"
@@ -199,3 +221,53 @@ class Aritmetica(Operacion):
             
             
         Error_("Semantico",f'No se puede realizar una operacion entre {Tipos(valor_left.tipo).name} y {Tipos(valor_right.tipo).name}',ts.env, self.linea, self.columna)
+        return Retorno()
+    
+    
+    def concatenar(self, ts, left, right):
+        
+        RETORNO = Retorno()
+        SALIDA = "/* CONCATENAR */\n"
+        
+        SALIDA += left.codigo
+        SALIDA += right.codigo
+        
+        temp = Generador.obtenerTemporal()
+        temp2 = Generador.obtenerTemporal()
+        caracter = Generador.obtenerTemporal()
+        
+        inicio1 = Generador.obtenerEtiqueta()
+        inicio2 = Generador.obtenerEtiqueta()
+        salida1 = Generador.obtenerEtiqueta()
+        salida2 = Generador.obtenerEtiqueta()
+        
+        
+        SALIDA += f'{temp2} = HP; \n'
+        SALIDA += f'{temp} = {left.temporal}; \n'
+           
+        SALIDA += f'{inicio1}:\n'    
+        SALIDA += f'{caracter} = Heap[(int){temp}];\n'
+        SALIDA += f'if({caracter} == 0) goto {salida1};\n'
+        SALIDA += f'Heap[HP] = {caracter};\n'
+        SALIDA += f'HP = HP + 1; \n'
+        SALIDA += f'{temp} = {temp} + 1; \n'
+        SALIDA += f'goto {inicio1};\n'
+        SALIDA += f'{salida1}:\n'
+
+        SALIDA += f'{temp} = {right.temporal}; /*here*/ \n'
+        
+        SALIDA += f'{inicio2}:\n'    
+        SALIDA += f'{caracter} = Heap[(int){temp}];\n'
+        SALIDA += f'if({caracter} == 0) goto {salida2};\n'
+        SALIDA += f'Heap[HP] = {caracter};\n'
+        SALIDA += f'HP = HP + 1; \n'
+        SALIDA += f'{temp} = {temp} + 1; \n'
+        SALIDA += f'goto {inicio2};\n'
+        SALIDA += f'{salida2}:\n'
+
+        SALIDA += f'Heap[HP] = 0; \n'
+        SALIDA += f'HP = HP + 1; \n'
+        
+        RETORNO.iniciarRetorno(SALIDA, "", temp2, Tipos.STRING)
+        
+        return RETORNO

@@ -20,7 +20,7 @@ class ToString(Expresion):
     def obtener3D(self, ts) -> Retorno:
         
        valor = self.exp.obtener3D(ts)
-       temp = Generador.obtenerTemporal()
+    #    temp = Generador.obtenerTemporal()
        
        SALIDA = "/* TO STRING */\n"
        SALIDA += valor.codigo

@@ -10,6 +10,8 @@ from Entorno.TablaSimbolos import TablaSimbolos
 from Entorno.Retorno import Retorno, Tipos
 from Entorno.Simbolos.InstanciaArreglo import InstanciaArreglo
 from Generador import Generador
+from AST.Expresion.Acceso.AccesoVector import AccesoVector
+from Entorno.Simbolos.InstanciaVector import InstanciaVector
 
 class AccesoArreglo(Expresion):
     
@@ -28,7 +30,9 @@ class AccesoArreglo(Expresion):
             Error_('Semantico', f'Arreglo "{self.id_instancia}" no ha sido declarado', ts.env, self.linea, self.columna)  
             return Retorno()
         
-        # print(instancia.tipo)
+        if isinstance(instancia, InstanciaVector):
+            vector = AccesoVector(instancia,self.listaExpresiones,self.linea,self.columna)
+            return vector.obtener3D(ts)
         
         if not isinstance(instancia, InstanciaArreglo):
             Error_('Semantico', f'Simbolo "{self.id_instancia}" no es un arreglo', ts.env, self.linea, self.columna)  
@@ -69,8 +73,6 @@ class AccesoArreglo(Expresion):
         
         
         RETORNO = Retorno()
-        
-        # print(instancia.tipo)
         
         RETORNO.tipo_interno = instancia.tipo_interno
         RETORNO.iniciarRetorno(SALIDA, "", RESULTADO.temporal, RESULTADO.tipo)

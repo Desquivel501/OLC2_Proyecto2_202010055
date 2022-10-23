@@ -46,7 +46,7 @@ class Funcion(Simbolo, Instruccion):
             
             # print(expresion)
             
-            print(declaracion.tipo, "---", expresion.tipo)
+            # print(declaracion.tipo, "---", expresion.tipo)
             
             if declaracion.tipo != expresion.tipo:
                 Error_("Semantico", f'Tipo incorrecto en parametro {self.lista_param[i].identificador}', entorno.env, self.linea, self.columna)
@@ -56,7 +56,7 @@ class Funcion(Simbolo, Instruccion):
             
             
             if (expresion.tipo is Tipos.ARRAY_DATA):
-                
+               
                 nuevo_arreglo = CrearArreglo(declaracion.identificador,None,None,None, True, self.linea, self.columna)
                 nuevo_arreglo.valorCompilado = expresion
                 nuevo_arreglo.puntero_nuevo = puntero

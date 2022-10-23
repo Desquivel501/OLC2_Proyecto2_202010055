@@ -55,6 +55,6 @@ class While(Instruccion):
         SALIDA += f'goto {ETQ_INICIO};\n'
         SALIDA += f'{ETQ_SALIDA}:\n'
         
-        ts.ptr -= 1
+        ts_local.ptr -= 1
         
         return SALIDA

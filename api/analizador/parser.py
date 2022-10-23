@@ -1,4 +1,5 @@
 from AST.Expresion.Vector.WithCapacity import Capacidad
+from AST.Expresion.Vector.VectorNew import VectorNew
 from AST.Expresion.Acceso.AccesoModulo import AccesoModulo
 from Entorno.Simbolos.Modulo import Modulo
 from AST.Expresion.Clone import Clone
@@ -975,23 +976,21 @@ def p_vector_new(p):
                        | LET MUT ID D_PUNTO VEC_U MENOR v_tipo MAYOR IGUAL vec_new
     """
     if len(p) == 10:
-        p[0] = CrearVector(p[2],Primitivo(0, None, p.lineno(1),p.lexpos(1) ),p[6],None,False, p.lineno(1),p.lexpos(1) )
+        p[0] = CrearVector(p[2],None,p[6],p[9],False, p.lineno(1),p.lexpos(1) )
     else:
-        p[0] = CrearVector(p[3],Primitivo(0, None, p.lineno(1),p.lexpos(1) ),p[7],None,True, p.lineno(1),p.lexpos(1) )
+        p[0] = CrearVector(p[3],None,p[7],p[10],True, p.lineno(1),p.lexpos(1) )
 
 
-def p_vector_cappacity(p):
+def p_vector_capacity(p):
     """
     declaracion_vector : LET ID D_PUNTO VEC_U MENOR v_tipo MAYOR IGUAL vec_capacity
                        | LET MUT ID D_PUNTO VEC_U MENOR v_tipo MAYOR IGUAL vec_capacity
     """
     
     if len(p) == 10:
-        capacidad = p[9].expresion
-        p[0] = CrearVector(p[2],capacidad,p[6],None,False, p.lineno(1),p.lexpos(1) )
+        p[0] = CrearVector(p[2],0,p[6],p[9],False, p.lineno(1),p.lexpos(1) )
     else:
-        capacidad = p[10].expresion
-        p[0] = CrearVector(p[3],capacidad,p[7],None,True, p.lineno(1),p.lexpos(1) )
+        p[0] = CrearVector(p[3],0,p[7],p[10],True, p.lineno(1),p.lexpos(1) )
 
 
 def p_tipo_vector(p):
@@ -1059,6 +1058,7 @@ def p_vec_new(p):
     """
     vec_new : VEC_U D_PUNTO D_PUNTO NEW PAR_I PAR_D
     """
+    p[0] = VectorNew()
 
 
 def p_vec_capacity(p):
@@ -1084,7 +1084,7 @@ def p_vec_dato_intervalo(p):
 
 def p_vector_push(p):
     """
-    vec_push : expresion PUNTO PUSH PAR_I expresion PAR_D
+    vec_push : ID PUNTO PUSH PAR_I expresion PAR_D
     """
     p[0] = Push(p[1],p[5], p.lineno(1),p.lexpos(1) )
 

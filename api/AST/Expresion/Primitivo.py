@@ -35,6 +35,12 @@ class Primitivo(Expresion):
             SALIDA += f'Heap[HP] = 0; \n'
             SALIDA += f'HP = HP + 1; \n'
             RETORNO.iniciarRetorno(SALIDA, "", temp, self.tipo)
+        
+         #---------------------------------------------------------------CHAR
+        if self.tipo == Tipos.CHAR:
+            valor = ord(self.valor)
+            SALIDA += f'{temp} = {valor}; \n'
+            RETORNO.iniciarRetorno(SALIDA, "", temp, self.tipo)
     
         #----------------------------------------------------------------BOOLEAN
         if self.tipo == Tipos.BOOLEAN:

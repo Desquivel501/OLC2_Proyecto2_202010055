@@ -52,6 +52,7 @@ class For(Instruccion):
             
             if valor_inicio.tipo != Tipos.INT or valor_fin.tipo != Tipos.INT:
                 Error_("Semantico", "Rango de For debe de ser i64", ts.env, self.linea, self.columna)
+                ts_local.ptr -= 1
                 return ""
             
             
@@ -69,8 +70,8 @@ class For(Instruccion):
                 
             simbolo = Simbolo()
             simbolo.iniciarPrimitivo(self.iterador, Tipos.INT, None , ts_local.tamanio, True)  
-            ts.add(self.iterador,simbolo,self.linea, self.columna)
-            ts.tamanio += 1
+            ts_local.add(self.iterador,simbolo,self.linea, self.columna)
+            ts_local.tamanio += 1
             
             
             SALIDA += f'{ETQ_INICIO}:\n'
@@ -89,4 +90,10 @@ class For(Instruccion):
             SALIDA += f'goto {ETQ_INICIO};\n'
             SALIDA += f'{ETQ_SALIDA}:\n'
             
-        return SALIDA
+            ts_local.ptr -= 1
+            
+            return SALIDA
+
+        
+        
+        

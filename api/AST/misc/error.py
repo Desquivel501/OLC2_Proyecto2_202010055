@@ -18,6 +18,6 @@ class Error_(Exception):
         Program.console += self.getError() + "\n"
         
     def getError(self):
-        print(self.tipo + ", " + self.mensaje)
+        print(self.tipo + ", " + self.mensaje + ", Linea: " + str(self.linea))
         return "Error " + self.tipo + " - " + self.mensaje + " (Linea " + str(self.linea) + "; Columna " + str(self.columna) + ")"
     

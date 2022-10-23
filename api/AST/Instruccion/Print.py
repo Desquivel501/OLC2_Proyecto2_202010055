@@ -31,12 +31,19 @@ class Print_(Instruccion):
             salida += f"printf(\"%d\\n\", (int){valor.temporal});\n"
             # Generador.agregarInstruccion(salida) 
            
-        #----------------------------------------------------------------INT    
+        #----------------------------------------------------------------FLOAT    
         if valor.tipo == Tipos.FLOAT:
             salida += "/* IMPRIMIR FLOAT */\n"
             salida += valor.codigo
             salida += f"printf(\"%f\\n\", (float){valor.temporal});\n"
             # Generador.agregarInstruccion(salida) 
+        
+        
+        #----------------------------------------------------------------CHAR  
+        if valor.tipo == Tipos.CHAR:
+            salida += "/* IMPRIMIR CHAR */\n"
+            salida += valor.codigo
+            salida += f"printf(\"%c\\n\", (char){valor.temporal});\n"
             
         #----------------------------------------------------------------STRING O STR
         if valor.tipo in [Tipos.STRING, Tipos.STR]:
@@ -65,13 +72,18 @@ class Print_(Instruccion):
             salida += f"    printf(\"%c\", (char)115);\n"
             salida += f"    printf(\"%c\", (char)101);\n"
             salida += f'{etq_true}:\n'
-            salida += f'    printf("\\n");\n'
+            salida += f'    printf("%c", (int)13);\n'
             # Generador.agregarInstruccion(salida) 
         
         #-------------------------------------------------------------------ARRAY DATA
         if valor.tipo == Tipos.ARRAY_DATA:
             
             salida = self.printArreglo(valor)
+            
+        
+        if valor.tipo == Tipos.VECTOR_DATA:
+            
+            salida = self.printVector(valor)
 
         return salida
     
@@ -93,7 +105,7 @@ class Print_(Instruccion):
         salida += f'    {temp} = {temp} + 1;\n'
         salida += f'    goto {inicio};\n'
         salida += f'{fin}:\n'
-        salida += f'    printf("\\n");\n'
+        salida += f'    printf("%c", (int)13);\n'
         
         return salida
 
@@ -112,7 +124,7 @@ class Print_(Instruccion):
         salida += f"    printf(\"%c\", (char){caracter}); \n"
         salida += f'    {temporal} = {temporal} + 1;\n'
         salida += f'    goto {inicio};\n'
-        salida += f'{fin}:\n'        
+        salida += f'{fin}:\n'       
         return salida
 
 
@@ -146,8 +158,6 @@ class Print_(Instruccion):
         salida += f'{caracter} =  Heap[(int) {temp}];\n'
             
             
-        print(valor.tipo_interno)
-            
         if (valor.tipo_interno == Tipos.INT):
             salida += f"printf(\"%d\", (int){caracter});\n"
                 
@@ -173,6 +183,68 @@ class Print_(Instruccion):
         salida += f"printf(\"%c\\n\", (char)93);\n"
         
         
-        
         return salida
     
+
+    def printVector(self, valor):
+        salida = ""
+        
+        etq_loop = Generador.obtenerEtiqueta()
+        etq_salir = Generador.obtenerEtiqueta()
+        
+        etq_error = Generador.obtenerEtiqueta()
+         
+        limite = Generador.obtenerTemporal()
+        contador = Generador.obtenerTemporal()
+        caracter = Generador.obtenerTemporal()
+        temp = Generador.obtenerTemporal()
+        temp2= Generador.obtenerTemporal()
+            
+        salida += "/* IMPRIMIR VECTOR  */\n"
+        salida += valor.codigo
+        
+        salida += f'{limite} = Heap[(int) {valor.temporal}];\n'
+
+        salida += f'{limite} = {limite} + 1;\n'
+        salida += f'{contador} = 1;\n'
+        salida += f'{temp2} = {valor.temporal} + 1;\n'
+
+        
+        salida += "/* IMPRIMIR CONTENIDO */\n" 
+        salida += f"printf(\"%c\", (char)91);\n"
+        
+        salida += f'if({limite} == 1) goto {etq_salir};\n'
+        
+        salida += f'{etq_loop}:\n'
+            
+        salida += f'{temp} = {temp2} + {contador} ;\n'
+            
+        salida += f'{caracter} =  Heap[(int) {temp}];\n'
+            
+        
+        if (valor.tipo_interno == Tipos.INT):
+            salida += f"printf(\"%d\", (int){caracter});\n"
+                
+        if (valor.tipo_interno == Tipos.FLOAT):
+            salida += f"printf(\"%f\", (float){caracter});\n"
+            
+        if (valor.tipo_interno in [Tipos.STRING, Tipos.STR]):
+            salida += self.printStringArray(caracter)
+        
+            
+        salida += f'{contador} = {contador} + 1;\n'
+            
+        salida += f'if((int){contador} == (int){limite}) goto {etq_salir};\n'
+            
+        salida += f"printf(\"%c\", (char)44);\n"
+            
+        salida += f'goto {etq_loop};\n'
+            
+        salida += f'{etq_salir}:\n'
+            
+        salida += f"printf(\"%c\\n\", (char)93);\n"
+        
+        
+        
+        
+        return salida

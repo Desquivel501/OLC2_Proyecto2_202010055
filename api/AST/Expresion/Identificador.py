@@ -30,7 +30,7 @@ class Identificador(Expresion):
         if simbolo is not None:
             temp1 = Generador.obtenerTemporal()
             temp2 = Generador.obtenerTemporal()
-            
+                        
             SALIDA += "/* ACCESO A VARIABLE */\n"
             SALIDA += f"{temp1} = SP + {simbolo.direccionRelativa};\n"
             SALIDA += f"{temp2} = Stack[(int){temp1}];\n"
@@ -45,6 +45,13 @@ class Identificador(Expresion):
             if isinstance(simbolo, InstanciaArreglo):
                 RETORNO.tipo_interno = simbolo.tipo_interno
                 RETORNO.valor = simbolo
+            
+            if isinstance(simbolo, InstanciaVector):
+                RETORNO.tipo_interno = simbolo.tipo_interno
+                RETORNO.valor = simbolo
+                
+                
+            SALIDA += "/* FIN ACCESO A VARIABLE */\n"
             
             RETORNO.iniciarRetorno(SALIDA, "", temp2, simbolo.tipo)
             

@@ -5,6 +5,7 @@ from AST.misc.error import Error_
 
 
 from AST.Expresion.Expresion import Expresion
+from Entorno.Retorno import Tipos
 
 class InstanciaVector(Expresion, Simbolo):
 
@@ -15,6 +16,8 @@ class InstanciaVector(Expresion, Simbolo):
         self.capacidad = None
         self.identificador = None
         self.mut = False
+        self.direccionRelativa = 0
+        self.tipo_interno = Tipos.NULL
         
 
     def getTipo(self, ts):

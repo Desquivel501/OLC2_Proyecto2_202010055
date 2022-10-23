@@ -7,6 +7,7 @@ from Entorno.Retorno import Tipos
 from Entorno.Simbolos.InstanciaArreglo import InstanciaArreglo
 from Generador import Generador
 
+import copy
 
 class CrearArreglo(Instruccion):
     def __init__(self, id_instancia:str, dimensiones, tipo, expresion, mut, linea:int, columna: int ):
@@ -76,7 +77,7 @@ class CrearArreglo(Instruccion):
         
         # print(valor.valor)
         
-        nueva_instancia: InstanciaArreglo = valor.valor
+        nueva_instancia: InstanciaArreglo = copy.deepcopy(valor.valor) 
         nueva_instancia.identificador = self.id_instancia
         nueva_instancia.direccionRelativa = ts.tamanio
         
