@@ -19,6 +19,8 @@ class InstanciaVector(Expresion, Simbolo):
         self.direccionRelativa = 0
         self.tipo_interno = Tipos.NULL
         
+        self.dos_dim = False
+        
 
     def getTipo(self, ts):
         return self.tipo

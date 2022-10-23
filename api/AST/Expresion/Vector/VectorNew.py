@@ -38,6 +38,7 @@ class VectorNew(Expresion):
     
         instancia = InstanciaVector(Tipos.VECTOR_DATA, [], None)
         instancia.tipo_interno = Tipos.NULL
+        instancia.isNew = True
         
         RETORNO.tipo_interno = Tipos.NULL
         RETORNO.iniciarRetornoArreglo(SALIDA, temp1, Tipos.VECTOR_DATA, instancia)

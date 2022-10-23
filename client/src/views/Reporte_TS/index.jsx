@@ -27,7 +27,7 @@ export const Reporte_TS = () => {
           )
    }
 
-  if (!simbolo) return (<h1 className='text-white mb-4 mt-4'>No se han encontrado errores</h1>)
+  if (!simbolo) return (<h1 className='text-white mb-4 mt-4'>No se ha encontrado Tabla de Simbolos</h1>)
 
   return (
       <div className='justify-content-start'>
@@ -38,7 +38,6 @@ export const Reporte_TS = () => {
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Simbolo</th>
                 <th>Tipo</th>
                 <th>Ambito</th>
                 <th>Linea</th>
@@ -50,7 +49,6 @@ export const Reporte_TS = () => {
               {simbolo.map(sim => (
                     <tr>
                         <td>{sim.id}</td>
-                        <td>{sim.simbolo}</td>
                         <td>{sim.tipo}</td>
                         <td>{sim.ambito}</td>
                         <td>{sim.linea}</td>

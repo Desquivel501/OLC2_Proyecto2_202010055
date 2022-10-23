@@ -93,7 +93,77 @@ class For(Instruccion):
             ts_local.ptr -= 1
             
             return SALIDA
+        
+        
+        if self.lista is not None:
+            
+            lista = self.lista.obtener3D(ts)
+            
+            if isinstance(lista.valor, InstanciaArreglo):
+                SALIDA = "/* ITERAR ARREGLO */\n"
+            
+                SALIDA += lista.codigo
+                
+                iterador = Generador.obtenerTemporal()
+                temp = Generador.obtenerTemporal()
+                
+                temp0 = Generador.obtenerTemporal()    
+                temp1 = Generador.obtenerTemporal()    
+                temp2 = Generador.obtenerTemporal()   
+                temp3 = Generador.obtenerTemporal()   
+                temp4 = Generador.obtenerTemporal()   
+                temp5 = Generador.obtenerTemporal() 
+                
+                loop = Generador.obtenerEtiqueta()
+                
+                
+                SALIDA += f'{temp0} = SP + {lista.valor.direccionRelativa};\n'
+                SALIDA += f'{temp1} = Stack[(int) {temp0}];  /* Posicion del arreglo en el heap */  \n'
+            
+                SALIDA += f'{temp2} = Heap[(int) {temp1}];  /* largo del vector */\n'
+                
+                SALIDA += f'{temp1} = {temp1} + 1; \n'
+                
+                SALIDA += f'{temp4} = 0; \n'
+                
+                SALIDA += "/* DECLARAR ITERADOR */\n"
+                SALIDA += f"{temp} = SP + {ts_local.tamanio};\n"
+                SALIDA += f"{temp3} = Heap[(int) {temp1}];\n"
+                SALIDA += f"Stack[(int){temp}] = {temp3};\n"
+                
+                simbolo = Simbolo()
+                simbolo.iniciarPrimitivo(self.iterador, lista.tipo_interno, None , ts_local.tamanio, True)  
+                ts_local.add(self.iterador,simbolo,self.linea, self.columna)
+                ts_local.tamanio += 1
+                
+                SALIDA += f'{ETQ_INICIO}:\n'
+                # SALIDA += f'{iterador} = Stack[(int){temp}];\n'
+                
+                SALIDA += f'if({temp4} >= {temp2}) goto {ETQ_SALIDA};\n'
+                
+                SALIDA += "\n/* CUERPO */\n"
+                SALIDA += self.cuerpo.ejecutar3D(ts_local)
+                SALIDA += "/* FIN CUERPO */\n"
+                
+                SALIDA += "\n/* AVANZAR ITERADOR */\n"
+                # SALIDA += f'{iterador} = Stack[(int){temp}];\n'
+                SALIDA += f'{temp4} = {temp4} + 1;\n'
+                SALIDA += f'{temp1} = {temp1} + 1;\n'
+                SALIDA += f'{temp5} = Heap[(int) {temp1}];\n'
+                SALIDA += f'Stack[(int){temp}] = {temp5};\n'
+                SALIDA += f'goto {ETQ_INICIO};\n'
+                SALIDA += f'{ETQ_SALIDA}:\n'
+                
+                ts_local.ptr -= 1
+                
+                return SALIDA
+            
+            if isinstance(lista.valor, InstanciaVector):
+                pass
+        
+        return ""
 
+        
         
         
         

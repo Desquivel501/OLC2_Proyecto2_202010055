@@ -67,6 +67,7 @@ class CrearVector(Instruccion):
         
         if (nueva_instancia.tipo_interno == Tipos.NULL):
             nueva_instancia.tipo_interno = self.tipo
+            
         
         ts.tamanio += 1
            

@@ -42,6 +42,7 @@ class AccesoArreglo(Expresion):
         temp1 = Generador.obtenerTemporal()    
         temp2 = Generador.obtenerTemporal()   
         etiqueta = Generador.obtenerEtiqueta()
+        etiqueta2 = Generador.obtenerEtiqueta()
         
         SALIDA = "/* Acceso Arreglo */\n"
         SALIDA += f'{temp1} = SP + {instancia.direccionRelativa};\n'
@@ -68,7 +69,16 @@ class AccesoArreglo(Expresion):
             RESULTADO.tipo = Tipos.ARRAY_DATA
             
         SALIDA += RESULTADO.codigo
-        SALIDA = SALIDA.replace("SALIR_ARREGLO", etiqueta)
+        SALIDA += f'goto {etiqueta};\n'
+        
+        
+        SALIDA = SALIDA.replace("SALIR_ARREGLO", etiqueta2)
+        
+        
+        SALIDA += f'{etiqueta2}:\n'
+        SALIDA += f'err_index_out_of_bounds();\n'
+        SALIDA += f'{RESULTADO.temporal} = 0;'
+        
         SALIDA += f'{etiqueta}:\n'
         
         
@@ -104,6 +114,9 @@ class AccesoArreglo(Expresion):
         temp3 = Generador.obtenerTemporal()
         temp4 = Generador.obtenerTemporal()
         
+        
+        SALIDA += f'if ({expresion.temporal} < 0) goto SALIR_ARREGLO; \n'
+         
         SALIDA += f'{temp1} = Heap[(int) {temporal}]; /* Se obtiene el tamaño del arreglo */\n'
         SALIDA += f'if ({expresion.temporal} > {temp1}) goto SALIR_ARREGLO; \n'
         SALIDA += f'{temp2} = {temporal} + 1; \n'

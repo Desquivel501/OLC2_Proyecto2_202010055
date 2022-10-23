@@ -27,6 +27,7 @@ class AccesoVector(Expresion):
         temp1 = Generador.obtenerTemporal()    
         temp2 = Generador.obtenerTemporal()   
         etiqueta = Generador.obtenerEtiqueta()
+        etiqueta2 = Generador.obtenerEtiqueta()
         
         SALIDA = "/* Acceso Vector */\n"
         SALIDA += f'{temp1} = SP + {self.instancia.direccionRelativa};\n'
@@ -49,13 +50,26 @@ class AccesoVector(Expresion):
         
         RESULTADO.tipo = self.instancia.tipo_interno
     
-        if( len(self.instancia.dimensiones) > len(self.listaExpresiones) ):
+    
+        if(  self.instancia.dos_dim and len(self.listaExpresiones) == 1):
             RESULTADO.tipo = Tipos.VECTOR_DATA
+    
             
         SALIDA += RESULTADO.codigo
-        SALIDA = SALIDA.replace("SALIR_ARREGLO", etiqueta)
+        
+        SALIDA += f'goto {etiqueta};\n'
+        
+        
+        SALIDA = SALIDA.replace("SALIR_ARREGLO", etiqueta2)
+        
+        
+        SALIDA += f'{etiqueta2}:\n'
+        SALIDA += f'err_index_out_of_bounds();\n'
+        SALIDA += f'{RESULTADO.temporal} = 0;'
+        
         SALIDA += f'{etiqueta}:\n'
         
+        # print("+++++", RESULTADO.tipo)
         
         RETORNO = Retorno()
         

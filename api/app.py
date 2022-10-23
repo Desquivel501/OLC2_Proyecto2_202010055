@@ -67,7 +67,7 @@ def interpretar():
 
                 ast: Ast = parser.parse(instrucciones)
                 ts = TablaSimbolos(None, 'Main')
-
+                
                 for instruccion in ast.instrucciones:
                     
                     if isinstance(instruccion, Funcion):

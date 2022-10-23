@@ -49,6 +49,7 @@ from AST.Instruccion.Case import Case
 from AST.Expresion.ExpMatch import ExpMatch
 from AST.Expresion.ExpIF import ExpIf
 from AST.Expresion.ExpCase import ExpCase
+from AST.misc.TipoVector import TipoVector
 from ply.yacc import yacc
 from Analizador import lexer
 from AST.Instruccion.Statement import Statement
@@ -257,7 +258,7 @@ def p_instruccion_print(p):
     """
 
     if len(p) == 6:
-         p[0] = Print_(p[4], None,p.lineno(1),p.lexpos(0) )
+         p[0] = Print_(p[4], [],p.lineno(1),p.lexpos(0) )
     else:
         p[0] = Print_( Primitivo(p[4], Tipos.STR, p.lineno(1),p.lexpos(1) ) , p[6],p.lineno(1),p.lexpos(0) )
 
@@ -991,13 +992,6 @@ def p_vector_capacity(p):
         p[0] = CrearVector(p[2],0,p[6],p[9],False, p.lineno(1),p.lexpos(1) )
     else:
         p[0] = CrearVector(p[3],0,p[7],p[10],True, p.lineno(1),p.lexpos(1) )
-
-
-def p_tipo_vector(p):
-    """
-    tipo_vec : VEC_U MENOR v_tipo MAYOR
-    """
-    p[0] = p[3]
     
     
 def p_tipo_modulo(p):
@@ -1032,7 +1026,7 @@ def p_v_tipo(p):
     if p.slice[1].type == 'ID':
         p[0] = Tipos.STRUCT
     if p.slice[1].type == 'VEC_U':
-        p[0] = Tipos.VECTOR_DATA
+        p[0] = p[3]
     if p.slice[1].type == 'tipo_modulo':
         p[0] = p[1]   
     
@@ -1091,14 +1085,15 @@ def p_vector_push(p):
 
 def p_vector_insert(p):
     """
-    vec_insert : expresion PUNTO INSERT PAR_I expresion COMA expresion PAR_D
+    vec_insert : ID PUNTO INSERT PAR_I expresion COMA expresion PAR_D
     """
+    # print("dlshjkdhskjd")
     p[0] = Insert(p[1],p[7], p[5] , p.lineno(1),p.lexpos(1) )
     
     
 def p_vector_remove(p):
     """
-    vec_remove : expresion PUNTO REMOVE PAR_I expresion PAR_D
+    vec_remove : ID PUNTO REMOVE PAR_I expresion PAR_D
     """
     p[0] = Remove(p[1],p[5], p.lineno(1),p.lexpos(1) )
 
@@ -1112,7 +1107,7 @@ def p_vector_contains(p):
     
 def p_vector_get_cap(p):
     """
-    vec_get_capacity : expresion PUNTO CAPACITY PAR_I PAR_D
+    vec_get_capacity : ID PUNTO CAPACITY PAR_I PAR_D
     """
     p[0] = GetCapacity(p[1],p.lineno(1),p.lexpos(1) )
 
@@ -1120,8 +1115,14 @@ def p_vector_get_cap(p):
 def p_len(p):
     """
     length : expresion PUNTO LEN PAR_I PAR_D
+           | ID PUNTO LEN PAR_I PAR_D
     """
-    p[0] = Length(p[1], p.lineno(1),p.lexpos(1) )
+    # p[0] = Length(p[1], p.lineno(1),p.lexpos(1) )
+    
+    if p.slice[1].type == 'ID':
+        p[0] = Length( Identificador(p[1], p.lineno(1),p.lexpos(1) ) , p.lineno(1),p.lexpos(1) )
+    else:
+        p[0] = Length(p[1], p.lineno(1),p.lexpos(1) )
 
 
 def p_clone(p):
@@ -1140,6 +1141,12 @@ def p_chars(p):
 
   
 #------------------------------------------------------------------------------------------------------------------------------EXPRESIONES
+
+def p_expresion_id(p):
+    """
+    expresion : ID
+    """
+    p[0] = Identificador(p[1], p.lineno(1),p.lexpos(1) )
 
 
 def p_expresion_aritmetica(p):
@@ -1167,7 +1174,6 @@ def p_expresion_ex(p):
               | expresion PUNTO ABS PAR_I  PAR_D
               | expresion PUNTO SQRT PAR_I  PAR_D
     """
-
     if p[4] == "pow":
         p[0] = Aritmetica(p[6], 'pow', p[8], p.lineno(1),p.lexpos(1) , False)
     elif p[4] == "powf":
@@ -1248,11 +1254,7 @@ def p_expresion_str(p):
     p[0] = Primitivo(p[1], Tipos.STR, p.lineno(1),p.lexpos(1) )
 
 
-def p_expresion_id(p):
-    """
-    expresion : ID
-    """
-    p[0] = Identificador(p[1], p.lineno(1),p.lexpos(1) )
+
 
 
 def p_to_string(p):

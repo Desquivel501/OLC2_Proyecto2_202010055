@@ -84,6 +84,11 @@ class Print_(Instruccion):
         if valor.tipo == Tipos.VECTOR_DATA:
             
             salida = self.printVector(valor)
+            
+        
+        for exp in self.list_exp:
+            nuevo = Print_(exp,[],self.linea,self.columna)
+            salida += nuevo.ejecutar3D(ts)
 
         return salida
     
@@ -128,6 +133,24 @@ class Print_(Instruccion):
         return salida
 
 
+    # def printStringArray(self, temporal):
+    #     # temp = Generador.obtenerTemporal()
+    #     caracter = Generador.obtenerTemporal()
+    #     inicio = Generador.obtenerEtiqueta()
+    #     fin = Generador.obtenerEtiqueta()
+
+    #     salida = "/* IMPRIMIR CADENA */\n"
+    #     salida += f'{inicio}:\n'
+    #     salida += f'{caracter} = Heap[(int){temporal}];\n'
+            
+    #     salida += f'if({caracter} == 0) goto {fin};\n'
+    #     salida += f"    printf(\"%c\", (char){caracter}); \n"
+    #     salida += f'    {temporal} = {temporal} + 1;\n'
+    #     salida += f'    goto {inicio};\n'
+    #     salida += f'{fin}:\n'       
+    #     return salida
+
+
 
     def printArreglo(self, valor):
         
@@ -157,7 +180,8 @@ class Print_(Instruccion):
             
         salida += f'{caracter} =  Heap[(int) {temp}];\n'
             
-            
+        # print("+++",valor.tipo_interno)
+        
         if (valor.tipo_interno == Tipos.INT):
             salida += f"printf(\"%d\", (int){caracter});\n"
                 
@@ -222,7 +246,9 @@ class Print_(Instruccion):
         salida += f'{caracter} =  Heap[(int) {temp}];\n'
             
         
-        if (valor.tipo_interno == Tipos.INT):
+        print(valor.tipo_interno)
+        
+        if (valor.tipo_interno in [Tipos.INT, Tipos.VECTOR_DATA] ):
             salida += f"printf(\"%d\", (int){caracter});\n"
                 
         if (valor.tipo_interno == Tipos.FLOAT):

@@ -63,6 +63,8 @@ class VectorDataIntervalo(Expresion):
         instancia = InstanciaVector(Tipos.VECTOR_DATA, [valor_cant], None)
         instancia.tipo_interno = valor_exp.tipo
         
+        # print("-------------  ", instancia.tipo_interno )
+        
         RETORNO.tipo_interno = valor_exp.tipo
         RETORNO.iniciarRetornoArreglo(SALIDA, temp1, Tipos.VECTOR_DATA, instancia)
         

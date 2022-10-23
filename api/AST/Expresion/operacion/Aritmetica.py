@@ -36,7 +36,7 @@ class Aritmetica(Operacion):
             salida += f'    {valor_left.temporal} = 0 - {valor_left.temporal};\n'
             salida += f'{etq_false}:\n'
  
-            retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
+            retorno.iniciarRetorno(salida,"",valor_left.temporal,valor_left.tipo)
             return retorno
   
         valor_right = self.right.obtener3D(ts)
@@ -145,13 +145,23 @@ class Aritmetica(Operacion):
                 return Retorno()
                 
         if self.operador == Operador.DIV:
-            if valor_right == 0:
-                 raise Error_("Semantico",f'La division entre 0 no esta definida',ts.env, self.linea, self.columna)
-            elif valor_left.tipo == valor_right.tipo:
+            if valor_left.tipo == valor_right.tipo:
                 salida += valor_left.codigo
                 salida += valor_right.codigo
                 temp = Generador.obtenerTemporal()
+                etq_1 = Generador.obtenerEtiqueta()
+                etq_2 = Generador.obtenerEtiqueta()
+
+                salida += f'{temp} = 0;\n'
+                salida += f'if({valor_right.temporal} == 0) goto {etq_1};\n'
                 salida += f'{temp} = {valor_left.temporal} / {valor_right.temporal};\n'
+                salida += f'goto {etq_2};\n'
+                
+                salida += f'{etq_1}:\n'
+                salida += f'err_div_0();\n'
+                salida += f'{etq_2}:\n'
+                
+                
                 retorno.iniciarRetorno(salida,"",temp,valor_left.tipo)
                 return retorno
             else:
@@ -265,6 +275,8 @@ class Aritmetica(Operacion):
         SALIDA += f'goto {inicio2};\n'
         SALIDA += f'{salida2}:\n'
 
+        SALIDA += f'Heap[HP] = 0; \n'
+        SALIDA += f'HP = HP + 1; \n'
         SALIDA += f'Heap[HP] = 0; \n'
         SALIDA += f'HP = HP + 1; \n'
         

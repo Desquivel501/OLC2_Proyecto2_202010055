@@ -8,6 +8,7 @@ from Entorno.Retorno import Tipos
 from AST.Instruccion.Instruccion import Instruccion
 from Generador import Generador
 from AST.Instruccion.Definicion.CrearArreglo import CrearArreglo
+from AST.Instruccion.Definicion.CrearVector import CrearVector
 
 class Funcion(Simbolo, Instruccion):
     
@@ -49,6 +50,7 @@ class Funcion(Simbolo, Instruccion):
             # print(declaracion.tipo, "---", expresion.tipo)
             
             if declaracion.tipo != expresion.tipo:
+                print(entorno.env)
                 Error_("Semantico", f'Tipo incorrecto en parametro {self.lista_param[i].identificador}', entorno.env, self.linea, self.columna)
                 continue
             
@@ -63,6 +65,15 @@ class Funcion(Simbolo, Instruccion):
                 nuevo_arreglo.enFuncion = True
                 nuevo_arreglo.esReferencia = declaracion.referencia
                 SALIDA += nuevo_arreglo.ejecutar3D(entorno)
+            
+            elif (expresion.tipo is Tipos.VECTOR_DATA):
+               
+                nuevo_vector = CrearVector(declaracion.identificador,0,None,None,True,self.linea,self.columna)
+                nuevo_vector.valorCompilado = expresion
+                nuevo_vector.puntero_nuevo = puntero
+                nuevo_vector.enFuncion = True
+                nuevo_vector.esReferencia = declaracion.referencia
+                SALIDA += nuevo_vector.ejecutar3D(entorno)
             
             else:
                 declaracion.valorCompilado = expresion

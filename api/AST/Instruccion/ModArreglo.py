@@ -3,6 +3,7 @@ from Entorno.Retorno import Retorno, Tipos
 from Entorno.Simbolos.InstanciaArreglo import InstanciaArreglo
 from Entorno.Simbolos.InstanciaStruct import InstanciaStruct
 from AST.Instruccion.Instruccion import Instruccion
+
 from Entorno.Retorno import Tipos
 from AST.misc.error import Error_
 from Generador import Generador

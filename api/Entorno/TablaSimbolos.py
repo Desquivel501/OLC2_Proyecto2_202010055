@@ -29,13 +29,8 @@ class TablaSimbolos:
     def add(self, id: str, simbolo: Simbolo, linea, columna):
                 
         self.tabla[id] = simbolo
-        
-        # data = self.getTipos(simbolo)
-        
-        # tipo = data[0]
-        # tipo_s = data[1]
-        
-        # Program.tabla.append({"id":id, "simbolo": tipo_s, "tipo":tipo, "ambito":self.env, "linea": linea, "columna": columna})
+        tipo = self.getTiposNombre(simbolo.tipo)
+        Program.tabla.append({"id":id, "tipo":tipo, "ambito":self.env, "linea": linea, "columna": columna})
 
     def buscar(self, id: str) -> Simbolo:
         ts = self
@@ -154,63 +149,30 @@ class TablaSimbolos:
 
 #-------------------------------------------TIPOS REPORTE-----------------------------------------------
 
-    # def getTiposNombre(self, s):
+    def getTiposNombre(self, s):
         
-    #     if isinstance(s, Tipos):
-    #         s = s.tipo
         
-    #     if s == Tipos.INT:
-    #         return "i64"
-    #     if s == Tipos.FLOAT:
-    #         return "f64"
-    #     if s == Tipos.BOOLEAN:
-    #         return "bool"
-    #     if s == Tipos.STR:
-    #         return "&str"
-    #     if s == Tipos.STRING:
-    #         return "String"
-    #     if s == Tipos.CHAR:
-    #         return "char"
-    #     if s == Tipos.ARRAY_DATA:
-    #         return "Arreglo "
-    #     if s == Tipos.VECTOR_DATA:
-    #         return "Vector"
-    #     if s == Tipos.STRUCT:
-    #         return "Struct"
-    #     else:
-    #         return ""
+        if s == Tipos.INT:
+            return "i64"
+        if s == Tipos.FLOAT:
+            return "f64"
+        if s == Tipos.BOOLEAN:
+            return "bool"
+        if s == Tipos.STR:
+            return "&str"
+        if s == Tipos.STRING:
+            return "String"
+        if s == Tipos.CHAR:
+            return "Char"
+        if s == Tipos.ARRAY_DATA:
+            return "Arreglo"
+        if s == Tipos.VECTOR_DATA:
+            return "Vector"
+        if s == Tipos.STRUCT:
+            return "Struct"
+        else:
+            return ""
             
 
-    # def getTipos(self, simbolo):
-    #     if isinstance(simbolo, InstanciaVector):
-    #         tipo = self.getTiposNombre(simbolo.tipo)
-    #         tipo_s = "Vector"
-    #     elif isinstance(simbolo, InstanciaVector):
-    #         tipo = self.getTiposNombre(simbolo.tipo)
-    #         tipo_s = "Vector"
-    #     elif isinstance(simbolo, InstanciaArreglo):
-    #         tipo = self.getTiposNombre(simbolo.tipo)
-    #         tipo_s = "Arreglo"
-    #     elif isinstance(simbolo, InstanciaStruct):
-    #         tipo = ""
-    #         tipo_s = "Struct"
-    #     else:
-    #         if isinstance(simbolo.valor, InstanciaVector):
-    #             tipo = self.getTiposNombre(simbolo.tipo)
-    #             tipo_s = "Vector"
-    #         elif isinstance(simbolo.valor, InstanciaVector):
-    #             tipo = self.getTiposNombre(simbolo.tipo)
-    #             tipo_s = "Vector"
-    #         elif isinstance(simbolo.valor, InstanciaArreglo):
-    #             tipo = self.getTiposNombre(simbolo.tipo)
-    #             tipo_s = "Arreglo"
-    #         elif isinstance(simbolo.valor, InstanciaStruct):
-    #             tipo = ""
-    #             tipo_s = "Struct"
-    #         else:
-    #             tipo = self.getTiposNombre(simbolo.tipo.tipo)
-    #             tipo_s = "Primitivo"
 
-    #     return (tipo, tipo_s)
-    
     

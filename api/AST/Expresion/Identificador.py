@@ -59,6 +59,7 @@ class Identificador(Expresion):
         
         else:
             Error_("Semantico",f'No se ha encontrado la variable "{self.identificador}"',ts.env, self.linea, self.columna)
+            return Retorno()
             
         
         
