@@ -52,7 +52,7 @@ class Funcion(Simbolo, Instruccion):
             if declaracion.tipo != expresion.tipo:
                 print(entorno.env)
                 Error_("Semantico", f'Tipo incorrecto en parametro {self.lista_param[i].identificador}', entorno.env, self.linea, self.columna)
-                continue
+                return "ERROR"
             
             # if()
             
@@ -79,6 +79,7 @@ class Funcion(Simbolo, Instruccion):
                 declaracion.valorCompilado = expresion
                 declaracion.puntero_nuevo = puntero
                 declaracion.enFuncion = True
+                declaracion.mut = True
                 SALIDA += declaracion.ejecutar3D(entorno)
         
         return SALIDA

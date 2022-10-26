@@ -81,9 +81,9 @@ class Asignacion(Instruccion):
                 Error_('Semantico', f'El valor de la variable no coincide con su tipo: {simbolo.tipo} -> {valor.tipo}', ts.env, self.linea, self.columna)     
                 return ""
             
-            # elif simbolo.mut is False:
-            #     Error_("Semantico", "No se puede cambiar el valor de una constante", ts.env, self.linea, self.columna)    
-            #     return SALIDA
+            if simbolo.mut is False:
+                Error_("Semantico", "No se puede cambiar el valor de una constante", ts.env, self.linea, self.columna)    
+                return SALIDA
             
             else:
                 temp = Generador.obtenerTemporal()

@@ -38,6 +38,9 @@ class Llamada(Expresion, Instruccion):
         
         PARAMETROS = funcion.ejecutarParametros(ts_local, self.listaExpresiones, ts, PUNTERO)
         
+        if PARAMETROS == "ERROR":
+            return Retorno()
+        
         if not funcion.generada:
             funcion.generada = True
             codigo_funcion = funcion.ejecutar3D(ts_local)
