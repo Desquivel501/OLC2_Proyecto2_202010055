@@ -54,8 +54,8 @@ class Generador:
         encabezado.append("#include <stdio.h>")
         encabezado.append("float Stack[10000];")
         encabezado.append("float Heap[10000];")
-        encabezado.append("int SP;")
-        encabezado.append("int HP;")
+        encabezado.append("int SP = 0;")
+        encabezado.append("int HP = 0;")
         encabezado.append("\n")
 
         temp = []
