@@ -53,6 +53,9 @@ class Identificador(Expresion):
                 
             SALIDA += "/* FIN ACCESO A VARIABLE */\n"
             
+            if isinstance(simbolo, InstanciaVector):
+                RETORNO.tipo_interno = Tipos.VECTOR_DATA
+            
             RETORNO.iniciarRetorno(SALIDA, "", temp2, simbolo.tipo)
             
             return RETORNO

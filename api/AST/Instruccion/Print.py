@@ -216,13 +216,22 @@ class Print_(Instruccion):
         etq_loop = Generador.obtenerEtiqueta()
         etq_salir = Generador.obtenerEtiqueta()
         
+        etq_loop2 = Generador.obtenerEtiqueta()
+        etq_salir2 = Generador.obtenerEtiqueta()
+        
         etq_error = Generador.obtenerEtiqueta()
          
         limite = Generador.obtenerTemporal()
+        limite2 = Generador.obtenerTemporal()
         contador = Generador.obtenerTemporal()
+        contador2 = Generador.obtenerTemporal()
         caracter = Generador.obtenerTemporal()
+        caracter2 = Generador.obtenerTemporal()
         temp = Generador.obtenerTemporal()
         temp2= Generador.obtenerTemporal()
+        
+        temp3= Generador.obtenerTemporal()
+        temp4= Generador.obtenerTemporal()
             
         salida += "/* IMPRIMIR VECTOR  */\n"
         salida += valor.codigo
@@ -246,9 +255,9 @@ class Print_(Instruccion):
         salida += f'{caracter} =  Heap[(int) {temp}];\n'
             
         
-        print(valor.tipo_interno)
+        print("INTERNO", valor.tipo_interno)
         
-        if (valor.tipo_interno in [Tipos.INT, Tipos.VECTOR_DATA] ):
+        if (valor.tipo_interno == Tipos.INT):
             salida += f"printf(\"%d\", (int){caracter});\n"
                 
         if (valor.tipo_interno == Tipos.FLOAT):
@@ -256,6 +265,40 @@ class Print_(Instruccion):
             
         if (valor.tipo_interno in [Tipos.STRING, Tipos.STR]):
             salida += self.printStringArray(caracter)
+        
+        
+        if (valor.tipo_interno == Tipos.VECTOR_DATA):
+            
+            salida += f'{contador2} = 1;\n'
+            salida += f'{temp4} = {caracter} + 1;\n'
+            salida += f'{limite2} = Heap[(int) {caracter}];\n'
+            # salida += f'{limite2} = {limite2} + 1;\n'
+            
+            salida += f"printf(\"%c\", (char)91);\n"
+            
+            salida += f'{etq_loop2}:\n'
+            
+            salida += f'{temp3} = {temp4} + {contador2};\n'
+            
+            salida += f'{caracter} = Heap[(int) {temp3}];\n'
+            
+            salida += f"printf(\"%d\", (int){caracter});\n"
+            
+            salida += f'{contador2} = {contador2} + 1;\n'
+            
+            salida += f'if((int){contador2} == (int){limite2}) goto {etq_salir2};\n'
+            
+            salida += f"printf(\"%c\", (char)44);\n"
+                
+            salida += f'goto {etq_loop2};\n'
+            
+            salida += f'{etq_salir2}:\n'
+            
+            # salida += f"printf(\"%d\", (int){caracter});\n"
+            
+            salida += f"printf(\"%c\", (char)93);\n"
+            
+            
         
             
         salida += f'{contador} = {contador} + 1;\n'
@@ -274,3 +317,21 @@ class Print_(Instruccion):
         
         
         return salida
+    
+    
+    # def printStringArrayprint(self, temporal):
+    #     # temp = Generador.obtenerTemporal()
+    #     caracter = Generador.obtenerTemporal()
+    #     inicio = Generador.obtenerEtiqueta()
+    #     fin = Generador.obtenerEtiqueta()
+
+    #     salida = "/* IMPRIMIR CADENA */\n"
+    #     salida += f'{inicio}:\n'
+    #     salida += f'{caracter} = Heap[(int){temporal}];\n'
+            
+    #     salida += f'if({caracter} == 0) goto {fin};\n'
+    #     salida += f"    printf(\"%c\", (char){caracter}); \n"
+    #     salida += f'    {temporal} = {temporal} + 1;\n'
+    #     salida += f'    goto {inicio};\n'
+    #     salida += f'{fin}:\n'       
+    #     return salida

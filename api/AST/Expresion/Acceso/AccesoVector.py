@@ -49,12 +49,12 @@ class AccesoVector(Expresion):
         RESULTADO = self.acceso(ts, dimensiones_compiladas, temp2)
         
         RESULTADO.tipo = self.instancia.tipo_interno
+
     
-    
-        if(  self.instancia.dos_dim and len(self.listaExpresiones) == 1):
+        if(self.instancia.dos_dim and len(self.listaExpresiones) == 1):
             RESULTADO.tipo = Tipos.VECTOR_DATA
-    
-            
+        
+        
         SALIDA += RESULTADO.codigo
         
         SALIDA += f'goto {etiqueta};\n'
