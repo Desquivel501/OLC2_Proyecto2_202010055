@@ -48,6 +48,7 @@ class Insert(Instruccion):
         temp10 = Generador.obtenerTemporal() 
         temp11 = Generador.obtenerTemporal()  
         temp12 = Generador.obtenerTemporal()  
+        temp55 = Generador.obtenerTemporal()  
         
         temp32 = Generador.obtenerTemporal()    
         
@@ -87,7 +88,8 @@ class Insert(Instruccion):
         SALIDA += f'    {temp6} = {temp2} + 3;\n'
         SALIDA += f'    HP = HP + {temp6};\n'
         
-        SALIDA += f'    Heap[(int){temp5}] = {temp2} + 1; /* Nuevo tamaño del vector*/ \n'
+        SALIDA += f'    {temp55} = {temp2} + 1;\n'
+        SALIDA += f'    Heap[(int){temp5}] = {temp55}; /* Nuevo tamaño del vector*/ \n'
         
         SALIDA += f'    {temp7} = {temp5} + 1; \n'
         SALIDA += f'    Heap[(int){temp7}] = {temp2} + 1; /*Nueva capacidad del vector*/ \n'
