@@ -41,6 +41,8 @@ class Insert(Instruccion):
         
         temp13 = Generador.obtenerTemporal()  
         
+        temp14 = Generador.obtenerTemporal()  
+        
         temp6 = Generador.obtenerTemporal()  
         temp7 = Generador.obtenerTemporal()  
         temp8 = Generador.obtenerTemporal()  
@@ -87,10 +89,11 @@ class Insert(Instruccion):
         SALIDA += f'    {temp6} = {temp2} + 3;\n'
         SALIDA += f'    HP = HP + {temp6};\n'
         
-        SALIDA += f'    Heap[(int){temp5}] = {temp2} + 1; /* Nuevo tamaño del vector*/ \n'
+        SALIDA += f'    {temp14} = {temp2} + 1;\n'
+        SALIDA += f'    Heap[(int){temp5}] = {temp14}; /* Nuevo tamaño del vector*/ \n'
         
         SALIDA += f'    {temp7} = {temp5} + 1; \n'
-        SALIDA += f'    Heap[(int){temp7}] = {temp2} + 1; /*Nueva capacidad del vector*/ \n'
+        SALIDA += f'    Heap[(int){temp7}] = {temp14}; /*Nueva capacidad del vector*/ \n'
         
         SALIDA += f'    {temp13} = {temp5} + 2; \n'
         SALIDA += f'    {temp3} = {temp3} + 1;\n'
@@ -117,7 +120,8 @@ class Insert(Instruccion):
         
         SALIDA += f'{etiqueta}:\n'
         # SALIDA += f'     printf("here\\n");\n'
-        SALIDA += f'    Heap[(int){temp1}] = {temp2} + 1 ;  /* se incrementa el largo del vector */\n'
+        SALIDA += f'    {temp14} = {temp2} + 1;\n'
+        SALIDA += f'    Heap[(int){temp1}] = {temp14};  /* se incrementa el largo del vector */\n'
         
         SALIDA += f'{etiqueta2}:\n'
         
@@ -128,7 +132,8 @@ class Insert(Instruccion):
         SALIDA += f'{temp1} = Stack[(int) {temp0}];  /* Posicion del vector en el heap */  \n'
         SALIDA += f'{temp2} = Heap[(int) {temp1}];  /* largo del vector */\n'
         
-        SALIDA += f'{temp32} = Heap[(int) {temp1} + 1];  /* largo del vector */\n'
+        SALIDA += f'{temp14} = {temp1} + 1;\n'
+        SALIDA += f'{temp32} = Heap[(int){temp14}];  /* largo del vector */\n'
 
         SALIDA += f'{temp1} = {temp1} + 2;\n'
         SALIDA += f'{temp2} = {temp2} - 2;\n'
